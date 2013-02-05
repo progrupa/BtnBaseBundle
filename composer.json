@@ -16,8 +16,7 @@
     "require": {
         "php": ">=5.3.3",
         "symfony/symfony": "2.*",
-        "doctrine/orm": ">=2.2.3,<2.4-dev",
-        "raulfraile/ladybug-bundle": "*"
+        "doctrine/orm": ">=2.2.3,<2.4-dev"
     },
     "autoload": {
         "psr-0": { "Btn\\BaseBundle": "" }
