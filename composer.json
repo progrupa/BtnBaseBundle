@@ -5,6 +5,7 @@
     "keywords": [ "bitnoise", "utilities"],
     "homepage": "https://github.com/Bitnoise/BtnBaseBundle",
     "license": "MIT",
+    "minimum-stability": "dev",
     "authors": [
         {
             "name": "Bitnoise Team",
@@ -12,12 +13,10 @@
             "email": "labs@bitnoi.se"
         }
     ],
-    "minimum-stability": "dev",
     "require": {
         "php": ">=5.3.3",
         "symfony/symfony": "2.*",
-        "doctrine/orm": ">=2.2.3,<2.4-dev",
-        "raulfraile/ladybug-bundle": "dev-master"
+        "doctrine/orm": ">=2.2.3,<2.4-dev"
     },
     "autoload": {
         "psr-0": { "Btn\\BaseBundle": "" }
