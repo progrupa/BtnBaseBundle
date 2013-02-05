@@ -1,1 +1,5 @@
-#nothing here yet
+services:
+    btn.listener.preexecute:
+        class: Btn\BaseBundle\Listener\PreExecute
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
