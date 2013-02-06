@@ -19,6 +19,9 @@
         "doctrine/orm": ">=2.2.3,<2.4-dev",
         "knplabs/knp-paginator-bundle": ">=2.3"
     },
+    "suggest": {
+        "raulfraile/ladybug-bundle": "dev-master"
+    },
     "autoload": {
         "psr-0": { "Btn\\BaseBundle": "" }
     },
