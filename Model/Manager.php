@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 /**
 * $manager = $this->container->get('zd.some_entity_manager')
+*                 ->setRequest($request)
 *                 ->setNs('namespace')
 *                 ->createForm(new EntityFilterType())
 *                 ->filter()
@@ -21,6 +22,7 @@ use Symfony\Component\HttpFoundation\Request;
 * or without filtering
 *
 * $manager = $this->container->get('zd.some_entity_manager')
+*                 ->setRequest($request)
 *                 ->setNs('namespace')
 *                 ->setQueryMethod('getBySomeRepoMethid') - default is getSearchQuery
 *                 ->setCustomConditions(array $customConditions) - custom conditions will be submitted to queryMethod
@@ -135,16 +137,30 @@ class Manager {
      * @param EntityManager $em
      * @param Paginator $paginator
      */
-    public function __construct(EntityManager $em, Paginator $paginator, Request $request, \Twig_Environment $twig, $formFactory)
+    public function __construct(EntityManager $em, Paginator $paginator, \Twig_Environment $twig, $formFactory)
     {
         $this->em           = $em;
         $this->paginator    = $paginator;
-        $this->request      = $request;
-        $this->session      = $request->getSession();
+        // $this->request      = $request;
+        // $this->session      = $request->getSession();
         $this->twig         = $twig;
         $this->formFactory  = $formFactory;
         $this->queryBuilder = $this->em->createQueryBuilder();
 
+    }
+
+    /**
+     * Set request - moved here to avoid scope request in
+     * other services.
+     *
+     * @return void
+     **/
+    public function setRequest(Request $request)
+    {
+        $this->request = $request;
+        $this->session = $request->getSession();
+
+        return $this;
     }
 
     /**
