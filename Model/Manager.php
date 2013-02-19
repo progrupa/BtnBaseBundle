@@ -74,7 +74,7 @@ class Manager {
     /**
      * paginationTpl
      */
-    protected $paginatonTpl = 'BtnCrudBundle:Pagination:default.html.twig';
+    protected $paginatonTpl = 'BtnBaseBundle:Pagination:default.html.twig';
 
     /**
      * request object
