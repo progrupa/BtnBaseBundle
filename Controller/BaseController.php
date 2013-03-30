@@ -194,4 +194,187 @@ class BaseController extends Controller
     {
         return $this->container->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY');
     }
+
+
+    /* TODO: docblock (temporary copy&paste from btntt)
+     *
+     * lroth: imo this part should be moved to the resource controllers
+     * ie. paginator here tages some prefixes "l" for leads, this can't be shared
+     * method like getAll should be defined in the resource controllers ie.
+     * LeadController extend RestController
+     *   shared methods like simple get resource but overwritten more
+     *   complicated ones like get all with pagination
+     *
+     * Clean this up later
+     *
+     */
+    public function getMetadata($entity)
+    {
+        return $this->getManager()->getClassMetadata(get_class($entity));
+    }
+
+    public function getResourceFullName($type, $name, $editMode = FALSE)
+    {
+        $fullName = $this->namespaces[$type] . ucfirst($name);
+
+        if ($type == 'form') {
+            $fullName .= ($editMode) ? 'Edit' : '';
+            $fullName .= 'Type';
+        }
+
+        return $fullName;
+    }
+
+    public function createJsonForm($form)
+    {
+        $jsonForm = array();
+        foreach ($form->createView()->getChildren() as $key => $child) {
+
+            $types  = $child->vars['block_prefixes'];
+            $type   = ($types[2] == 'text' && isset($types[3]) && (strpos($types[3], '_') === FALSE)) ? $types[3] : $types[2];
+            $format = '';
+
+            if ($type == 'datetime' || $type == 'date') {
+                $type   = 'text';
+                $format = 'datetime';
+            }
+
+            $jsonForm[] = array(
+                'name'   => $key,
+                'type'   => $type,
+                'format' => $format
+            );
+
+            if ($type == 'choice') {
+                $choicesArr = array();
+                $choices    = $child->vars['choices'];
+
+                foreach ($choices as $choice) {
+                    $choicesArr[] = array('label' => $choice->label, 'value' => $choice->value);
+                }
+
+                $jsonForm[count($jsonForm) - 1]['choices'] = $choicesArr;
+            }
+        }
+
+        return $jsonForm;
+    }
+
+    public function getAllErrors($children, $template = TRUE)
+    {
+        $this->getAllFormErrors($children);
+        return $this->allErrors;
+    }
+
+    private function getAllFormErrors($children, $template = TRUE)
+    {
+        foreach ($children as $child) {
+            if ($child->hasErrors()) {
+                $vars   = $child->createView()->getVars();
+                $errors = $child->getErrors();
+                foreach ($errors as $error) {
+                    $this->allErrors[$vars["name"]][] = $this->convertFormErrorObjToString($error);
+                }
+            }
+
+            if ($child->hasChildren()) {
+                $this->getAllErrors($child);
+            }
+        }
+    }
+
+    private function convertFormErrorObjToString($error)
+    {
+        $errorMessageTemplate = $error->getMessageTemplate();
+        foreach ($error->getMessageParameters() as $key => $value) {
+            $errorMessageTemplate = str_replace($key, $value, $errorMessageTemplate);
+        }
+        return $errorMessageTemplate;
+    }
+
+    public function getResourceObjects($resourceName, $entityId = NULL)
+    {
+        $editMode   = ($entityId != NULL);
+        $entityName = $this->getResourceFullName('entity', $resourceName);
+        $formName   = $this->getResourceFullName('form', $resourceName, $editMode);
+
+        /* grab entity here */
+        $entity = ($editMode) ? $this->manager->getRepository($entityName)->find($entityId) : (new $entityName());
+
+        $form = $this->createForm(
+            new $formName, $entity
+        );
+
+        return array('form' => $form, 'entity' => $entity);
+    }
+
+    public function getFormErrors($form)
+    {
+        $this->translator = $this->get('translator');
+
+        foreach ($form->getErrors() as $e) {
+            $errors[] = $this->translator->trans($this->convertFormErrorObjToString($e), array(), 'validators');
+        }
+
+        foreach ($this->getAllErrors($form->getChildren()) as $key => $error) {
+            $errors[$key] = $this->translator->trans($error[0], array(), 'validators');
+        }
+
+        return $errors;
+    }
+
+    public function getRestResponse($content, $statusCode = 200)
+    {
+        //TODO: doesn't work in IE
+        $response = new Response();
+
+        $response->setStatusCode($statusCode);
+        $response->setContent($this->serializer->serialize($content, 'json'));
+        $response->headers->set('Content-type', 'application/json');
+
+        return $response;
+    }
+
+    protected function getPaginator($resourceName, $phrase = '')
+    {
+        //get manager
+        $manager = $this->container->get('btn.' . $resourceName . '_manager')
+            ->setNs($resourceName)
+        ;
+
+        if (!empty($phrase)) {
+            //set custom condition
+            $conditions = array(
+                $manager->getQueryBuilder()->expr()->like('l.name', $manager->getQueryBuilder()->expr()->literal('%' . $phrase . '%'))
+            );
+
+            $manager->setCustomConditions($conditions);
+        }
+
+        //paginate 2 items per page
+        $manager->paginate(1);
+
+        //we have a sliding pagination here with iterator interface
+        return $manager->getPagination();
+    }
+
+    public function getPaginatorResources($paginator)
+    {
+        $resources = array();
+
+        foreach ($paginator as $resource) {
+            $resources[] = $resource;
+        }
+
+        return $resources;
+    }
+
+    public function getPaginatorDetails($paginator)
+    {
+        return array(
+            'current'      => $paginator->getCurrentPageNumber(),
+            'totalRecords' => $paginator->getTotalItemCount(),
+            'perPage'      => $paginator->getItemNumberPerPage()
+        );
+    }
 }
