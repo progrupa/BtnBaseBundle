@@ -3,3 +3,6 @@ services:
         class: Btn\BaseBundle\Listener\PreExecute
         tags:
             - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+        priority: -1000
+        arguments:
+            resolver: "@controller_resolver"

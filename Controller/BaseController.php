@@ -340,6 +340,7 @@ class BaseController extends Controller
         //get manager
         $manager = $this->container->get('btn.' . $resourceName . '_manager')
             ->setNs($resourceName)
+            ->setRequest($this->getRequest())
         ;
 
         if (!empty($phrase)) {
@@ -352,7 +353,7 @@ class BaseController extends Controller
         }
 
         //paginate 2 items per page
-        $manager->paginate(1);
+        $manager->paginate(2);
 
         //we have a sliding pagination here with iterator interface
         return $manager->getPagination();

@@ -11,9 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
-/**
- * @Route("/rest")
- */
+
 class RestController extends BaseController
 {
     private $resources = array();
@@ -27,7 +25,7 @@ class RestController extends BaseController
         if (!$this->isAuthenticated()) {
             $request = $event->getRequest();
 
-            $request->attributes->set('_controller', 'BtnAppBundle:Api:exception');
+            $request->attributes->set('_controller', 'BtnPmBundle:Api:exception');
             $request->attributes->set('_route', 'actionException');
             $request->attributes->set('type', 'not_authenticated');
 
@@ -35,17 +33,12 @@ class RestController extends BaseController
         }
     }
 
-    public function postExecute()
-    {
-        //@lukasz
-    }
-
     /* get repository by resource name */
     private function getRepoByResource($name)
     {
         //TODO: class exists
         //TODO: configured repository namespace
-        return $this->manager->getRepository('BtnAppBundle:' . ucfirst($name));
+        return $this->manager->getRepository('BtnPmBundle:' . ucfirst($name));
     }
 
     /**
