@@ -14,169 +14,116 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 class RestController extends BaseController
 {
-    private $resources = array();
-
-    public function preExecute($event, $resolver)
-    {
-        $this->manager    = $this->getDoctrine()->getManager();
-        $this->serializer = $this->container->get('serializer');
-        $this->translator = $this->get('translator');
-
-        if (!$this->isAuthenticated()) {
-            $request = $event->getRequest();
-
-            $request->attributes->set('_controller', 'BtnPmBundle:Api:exception');
-            $request->attributes->set('_route', 'actionException');
-            $request->attributes->set('type', 'not_authenticated');
-
-            $event->setController($resolver->getController($request));
-        }
-    }
-
-    /* get repository by resource name */
-    private function getRepoByResource($name)
-    {
-        //TODO: class exists
-        //TODO: configured repository namespace
-        return $this->manager->getRepository('BtnPmBundle:' . ucfirst($name));
-    }
-
     /**
-     * @Route("/{resourceName}/{resourceId}", name="actionDelete")
+     * REST delete resource action
+     *
+     * @Route("/{id}")
      * @Method({"DELETE"})
      */
-    public function deleteAction($resourceName, $resourceId)
+    public function deleteAction($id)
     {
-        $this->manager->remove($this->getRepoByResource($resourceName)->find($resourceId));
-        $this->manager->flush();
+        $this->getManager()->remove($this->getRepository($this->resource)->find($id));
+        $this->getManager()->flush();
 
-        return new Response($this->serializer->serialize(array(
-            'message' => $this->translator->trans(ucfirst($resourceName) . ' with id ' . $resourceId . ' deleted successfully!')
-        ), 'json'));
+        return $this->renderRest(array(
+            'message' => $this->get('translator')->trans(ucfirst($this->resource) . ' with id ' . $id . ' deleted successfully!')
+        ));
     }
 
     /**
-     * @Route("/{resourceName}", name="actionGetAll")
+     * REST index action
+     * works with the ?page=2 request parameter
+     * for more complicated things like filters etc. use overloading for index action
+     *
+     * @Route("/")
      * @Method({"GET"})
      */
-    public function getAllAction($resourceName)
+    public function indexAction()
     {
-//        $repo   = $this->getRepoByResource($resourceName);
-//        $method = (method_exists($repo, 'findAllRest')) ? 'findAllRest' : 'findAll';
-//        $leads  = call_user_func(array($repo, $method));
+        //get short class name without namespace
+        $function     = new \ReflectionClass($this->resource);
+        $resourceName = strtolower($function->getShortName());
 
-        $paginator = $this->getPaginator($resourceName);
-        $details   = $this->getPaginatorDetails($paginator);
-        $resources = $this->getPaginatorResources($paginator);
+        //trigger pagination
+        $paginator    = $this->getPaginator('btn.' . $resourceName . '_manager', 2);
 
-        return new Response($this->serializer->serialize(array(
-            'results' => $resources,
-            'details' => $details
-        ), 'json'));
+        return $this->renderRest(array('results' => $paginator->getItems()));
     }
 
     /**
-     * @Route("/{resourceName}/{id}", name="actionGet")
+     * REST show action
+     *
+     * @Route("/{id}")
      * @Method({"GET"})
      */
-    public function getAction($resourceName, $id)
+    public function showAction($id)
     {
         return new Response(
-            $this->serializer->serialize(
-                $this->getRepoByResource($resourceName)->find($id), 'json'
+            $this->get('serializer')->serialize(
+                $this->getRepository($this->resource)->find($id), 'json'
             )
         );
     }
 
-    private function getRestRequest()
-    {
-        return ((array)json_decode(
-            $this->getRequest()->getContent()
-        ));
-    }
-
-    private function validateRequest($resourceName, $id = NULL)
-    {
-        $resourceObjs = $this->getResourceObjects($resourceName, $id);
-
-        $form   = $resourceObjs['form'];
-        $entity = $resourceObjs['entity'];
-
-        $requestObj = $this->getRequest();
-        $requestObj->request->set($form->getName(), $this->getRestRequest());
-
-        $form->bind($requestObj);
-
-        $validationArr = array(
-            'isValid' => $form->isValid(),
-            'entity'  => $entity
-        );
-
-        $validationArr['errors'] =
-            (!$validationArr['isValid']) ? $this->getFormErrors($form) : NULL;
-
-        return $validationArr;
-    }
-
     /**
-     * @Route("/{resourceName}/{id}", name="actionOperateOn", defaults={"id" = null})
+     * REST create, edit, update action
+     *
+     * @Route("/{id}", defaults={"id" = null})
      * @Method({"POST", "PUT", "PATCH"})
      */
-    public function operateAction($resourceName, $id = NULL)
+    public function operateAction($id = NULL)
     {
-        /* grab request, preserve resources, validate data */
-        $validation = $this->validateRequest($resourceName, $id);
+        //resolve entity and form
+        $entity   = $id ? $this->getRepository($this->resource)->find($id) : (new $this->resource());
+        $formName = $id ? $this->editForm : $this->createForm;
+        $form = $this->createForm(
+            new $formName, $entity
+        );
+
+        //run validation
+        $validation = $this->get('btn.rest_form')->validateRequest(
+            $this->getRequest(),
+            $entity,
+            $form,
+            $id
+        );
 
         /* if no entity, $id was wrong, or entity doesn't exists */
         if ($id != NULL && $validation['entity'] == NULL) {
-            return $this->getRestResponse(
-                array('message' => 'No ' . $resourceName . ' with id ' . $id), 400);
+            return $this->renderRest(
+                array('message' => 'No ' . $this->resource . ' with id ' . $id), 400);
         }
 
         /* validation goes wrong, return errors */
         if (!$validation['isValid']) {
-            return $this->getRestResponse($validation, 400);
+            return $this->renderRest($validation, 400);
         }
 
         /* do some custom actions, like setting current user */
-        $this->doCustomActions($validation['entity']);
+        $this->callCustomActions($this, $entity);
 
-        /* if id == null, */
-        //TODO: kick out this if
-        if ($id == NULL) {
-            $this->manager->persist($validation['entity']);
-        }
-        $this->manager->flush();
+        //save changes
+        $this->getManager()->persist($validation['entity']);
+        $this->getManager()->flush();
 
-        return $this->getRestResponse($validation['entity']);
+        return $this->renderRest($validation['entity']);
     }
 
-    public function defaultAction($resourceName)
+    /**
+     * Helper method for custom callback to main controller before entity is flushed
+     *
+     * @param  Controller $controller
+     * @param  Entity     $entity
+     * @return void
+     **/
+    private function callCustomActions(&$controller, &$entity)
     {
-        //@lukasz - throw exception here
-        //TODO: json response temporary here...
-        die('no api method');
-    }
-
-    /* kind of magic - move to repo */
-    //TODO: to service...
-    private function doCustomActions(&$entity)
-    {
-        if (property_exists($entity, 'customCallbacks') && is_array($entity->customCallbacks)) {
-            foreach ($entity->customCallbacks as $action) {
+        if (property_exists($controller, 'customCallbacks') && is_array($controller->customCallbacks)) {
+            foreach ($controller->customCallbacks as $action) {
                 if (method_exists($this, $action)) {
-                    call_user_func_array(array($this, $action), array(&$entity));
+                    call_user_func_array(array($this, $action), array(&$this, &$entity));
                 }
             }
         }
     }
-
-    //TODO: to service...
-    /* move this to service or something */
-    private function setCurrentUser(&$entity)
-    {
-        $entity->setUser($this->getUser());
-    }
 }
-
-?>

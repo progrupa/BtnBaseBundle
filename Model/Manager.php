@@ -170,7 +170,7 @@ class Manager {
     public function paginate($limit = 10)
     {
         //try to get currrent page from request or session
-        $this->processPage();
+        $this->processPage($limit);
 
         $this->pagination = $this->paginator->paginate($this->getQuery(), $this->getPage(), $limit);
         $this->pagination->setTemplate($this->getPaginatonTpl());
@@ -245,10 +245,11 @@ class Manager {
     * set current page from request if doesn't exists
     * set to 1
     */
-    protected function processPage()
+    protected function processPage($limit)
     {
         if ($this->request->get('page')) {
             $this->setPage($this->request->get('page'));
+
         } elseif ($this->pageSession === false) {
             $this->setPage(1);
         }
