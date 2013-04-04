@@ -245,7 +245,7 @@ class Manager {
     * set current page from request if doesn't exists
     * set to 1
     */
-    protected function processPage($limit)
+    protected function processPage()
     {
         if ($this->request->get('page')) {
             $this->setPage($this->request->get('page'));
