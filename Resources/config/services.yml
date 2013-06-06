@@ -10,3 +10,8 @@ services:
         priority: -1000
         arguments:
             resolver: "@controller_resolver"
+
+    btn.twig.size_extension:
+        class: Btn\BaseBundle\Twig\SizeExtension
+        tags:
+            - { name: twig.extension }
