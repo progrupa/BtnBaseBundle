@@ -16,7 +16,7 @@ class BaseController extends Controller
      */
     public function setFlash($message = 'success!', $type = 'success')
     {
-        $this->getRequest()->getSession()->setFlash($type, $message);
+        $this->getRequest()->getSession()->getFlashBag()->set($type, $message);
     }
 
     /**
