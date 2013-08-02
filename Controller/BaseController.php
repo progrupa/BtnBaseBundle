@@ -95,9 +95,9 @@ class BaseController extends Controller
      *
      * @return object or NULL if the entity was not found
      */
-    public function findEntity($class, $id, $managerName = null)
+    public function findEntity($class, $id = null, $managerName = null)
     {
-        return $this->getRepository($class, $managerName)->find($id);
+        return $id ? $this->getRepository($class, $managerName)->find($id) : null;
     }
 
     /**
