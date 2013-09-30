@@ -196,7 +196,7 @@ class Manager {
     {
         $this->processFilter();
 
-        $this->conditions = $this->type->getExpr($this->form->getClientData(), $this->getExpr());
+        $this->conditions = $this->type->getExpr($this->form->getData(), $this->getExpr());
 
         return $this;
     }
