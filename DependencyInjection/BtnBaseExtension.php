@@ -22,6 +22,11 @@ class BtnBaseExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
+        $container->setParameter('btn_base', array());
+
+        $container->setParameter('btn_base.livereload_port', isset($config['livereload_port']) ? $config['livereload_port'] : 35729);
+        $container->setParameter('btn_base.livereload_enabled', isset($config['livereload_enabled']) ? $config['livereload_enabled'] : false);
+
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
     }

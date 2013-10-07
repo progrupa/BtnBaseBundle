@@ -15,3 +15,9 @@ services:
         class: Btn\BaseBundle\Twig\SizeExtension
         tags:
             - { name: twig.extension }
+
+    btn.livereload_js:
+        class: Btn\BaseBundle\Listener\ScriptInject
+        arguments: ["%btn_base.livereload_port%", "%btn_base.livereload_enabled%"]
+        tags:
+            - { name: kernel.event_subscriber }
