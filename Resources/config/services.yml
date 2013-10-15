@@ -1,4 +1,6 @@
 services:
+    btn.templating:
+        class: Btn\BaseBundle\Model\Templating
     btn.rest_form:
         class: Btn\BaseBundle\Model\RestForm
         arguments:
