@@ -137,7 +137,7 @@ class Manager {
      * @param EntityManager $em
      * @param Paginator $paginator
      */
-    public function __construct(EntityManager $em, Paginator $paginator, \Twig_Environment $twig, $formFactory)
+    public function __construct(EntityManager $em, Paginator $paginator, \Twig_Environment $twig = null, $formFactory)
     {
         $this->em           = $em;
         $this->paginator    = $paginator;
@@ -153,13 +153,25 @@ class Manager {
      * Set request - moved here to avoid scope request in
      * other services.
      *
-     * @return void
-     **/
+     * @return Manager
+     */
     public function setRequest(Request $request)
     {
         $this->request = $request;
         $this->session = $request->getSession();
 
+        return $this;
+    }
+
+    /**
+     * Set twig - moved to avoid Circular reference with twig extensions
+     * 
+     * @return Manager 
+     */
+    public function setTwig(\Twig_Environment $twig)
+    {
+        $this->twig = $twig;
+        
         return $this;
     }
 
