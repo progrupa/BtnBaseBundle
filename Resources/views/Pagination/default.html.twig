@@ -1,7 +1,6 @@
 {# bootstrap compatible Sliding pagination control implementation #}
 {% if pageCount > 1 %}
-<div class="pagination">
-  <ul>
+<ul class="pagination">
     <li class="first {{ (first is defined and current == first) ? 'disabled' : ''}}">
         <a href="{{ path(route, query|merge({'page': first})) }}">&#60;&#60;</a>
     </li>
@@ -23,6 +22,5 @@
     <li class="last {{ (last is defined and current == last) ? 'disabled' : ''}}">
         <a href="{{ (last is defined and current == last) ? '#' : path(route, query|merge({'page': last})) }}">&#62;&#62;</a>
     </li>
-  </ul>
-</div>
+</ul>
 {% endif %}
