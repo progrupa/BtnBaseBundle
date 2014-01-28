@@ -15,7 +15,7 @@ class Templating
      *
      * @return Response A Response instance
      */
-    public function renderJson($content = '', $verdict = 'success', $custom = array())
+    public function renderJson($content = '', $verdict = 'success', $custom = array(), $status = 200)
     {
         $result = array(
             'verdict' => $verdict,
@@ -26,7 +26,7 @@ class Templating
             $result = array_merge($result, $custom);
         }
 
-        return $this->json($result);
+        return $this->json($result, null, $status);
     }
 
     /**
@@ -37,7 +37,7 @@ class Templating
      *
      * @return Response A Response instance
      */
-    public function json(array $array, Response $response = null)
+    public function json(array $array, Response $response = null, $status = 200)
     {
         if (null === $response) {
             $response = new Response();
@@ -45,6 +45,7 @@ class Templating
 
         $response->setContent(json_encode($array));
         $response->headers->set('Content-type', 'text/plain');
+        $response->setStatusCode($status);
 
         return $response;
     }

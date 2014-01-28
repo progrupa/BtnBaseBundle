@@ -27,9 +27,9 @@ class BaseController extends Controller
      *
      * @return Response A Response instance
      */
-    public function renderJson($content = '', $verdict = 'success', $custom = array())
+    public function renderJson($content = '', $verdict = 'success', $custom = array(), $status = 200)
     {
-        return $this->container->get('btn.templating')->renderJson($content, $verdict, $custom);
+        return $this->container->get('btn.templating')->renderJson($content, $verdict, $custom, $status);
     }
 
     /**
@@ -40,9 +40,9 @@ class BaseController extends Controller
      *
      * @return Response A Response instance
      */
-    public function json(array $array, Response $response = null)
+    public function json(array $array, Response $response = null, $status = 200)
     {
-        return $this->container->get('btn.templating')->json($array, $response);
+        return $this->container->get('btn.templating')->json($array, $response, $status);
     }
 
     /**
