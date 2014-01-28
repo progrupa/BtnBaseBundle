@@ -12,6 +12,7 @@ class Templating
      *
      * @param array    $array
      * @param Response $response
+     * @param int      $status
      *
      * @return Response A Response instance
      */
@@ -34,6 +35,7 @@ class Templating
      *
      * @param array    $array
      * @param Response $response
+     * @param int      $status
      *
      * @return Response A Response instance
      */

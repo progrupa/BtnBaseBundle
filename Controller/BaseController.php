@@ -24,6 +24,7 @@ class BaseController extends Controller
      *
      * @param array    $array
      * @param Response $response
+     * @param int      $status
      *
      * @return Response A Response instance
      */
@@ -37,6 +38,7 @@ class BaseController extends Controller
      *
      * @param array    $array
      * @param Response $response
+     * @param int      $status
      *
      * @return Response A Response instance
      */
