@@ -23,3 +23,10 @@ services:
         arguments: ["%btn_base.livereload_port%", "%btn_base.livereload_enabled%"]
         tags:
             - { name: kernel.event_subscriber }
+
+    btn.event.doctrine:
+        class: Btn\BaseBundle\Listener\DoctrineEvent
+        tags:
+            - { name: doctrine.event_listener, event: loadClassMetadata }
+        arguments:
+            options: '%doctrine%'
