@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 *                 ->setNs('namespace')
 *                 ->createForm(new EntityFilterType())
 *                 ->filter()
+*                 ->setPageParameterName('page') # optional change of parameter name
 *                 ->paginate();
 *
 * or without filtering
@@ -28,6 +29,7 @@ use Symfony\Component\HttpFoundation\Request;
 *                 ->setCustomConditions(array $customConditions) - custom conditions will be submitted to queryMethod
 *                 ->enablePageSession() - read current pase from session if not in request (by defaul is disabled)
 *                 ->fetchQuery($query)  - getting custom query - method $this->queryMethod will not be fired
+*                 ->setPageParameterName('page') # optional change of parameter name
 *                 ->paginate();
 *
 * - now we have manager with filtering and pagination.
@@ -118,6 +120,11 @@ class Manager {
      */
     protected $type;
 
+    /**
+     * page query parameter name
+     */
+    protected $pageParameterName = 'page';
+
     protected $page = 1;
 
     /**
@@ -165,13 +172,13 @@ class Manager {
 
     /**
      * Set twig - moved to avoid Circular reference with twig extensions
-     * 
-     * @return Manager 
+     *
+     * @return Manager
      */
     public function setTwig(\Twig_Environment $twig)
     {
         $this->twig = $twig;
-        
+
         return $this;
     }
 
@@ -179,13 +186,20 @@ class Manager {
      * - fire knp_paginator object paginate action and assign result to the $this->pagination property
      * - set default tpl
      */
-    public function paginate($limit = 10)
+    public function paginate($limit = 10, array $options = array())
     {
+        if (!empty($options['pageParameterName'])) {
+            $this->setPageParameterName($options['pageParameterName']);
+        } else {
+            $options['pageParameterName'] = $this->getPageParameterName();
+        }
+
         //try to get currrent page from request or session
         $this->processPage($limit);
 
-        $this->pagination = $this->paginator->paginate($this->getQuery(), $this->getPage(), $limit);
+        $this->pagination = $this->paginator->paginate($this->getQuery(), $this->getPage(), $limit, $options);
         $this->pagination->setTemplate($this->getPaginatonTpl());
+
         return $this;
     }
 
@@ -259,8 +273,8 @@ class Manager {
     */
     protected function processPage()
     {
-        if ($this->request->get('page')) {
-            $this->setPage($this->request->get('page'));
+        if ($this->request->get($this->getPageParameterName())) {
+            $this->setPage($this->request->get($this->getPageParameterName()));
 
         } elseif ($this->pageSession === false) {
             $this->setPage(1);
@@ -335,14 +349,26 @@ class Manager {
         return $this->customConditions;
     }
 
+    public function setPageParameterName($pageParameterName)
+    {
+        $this->pageParameterName = $pageParameterName;
+
+        return $this;
+    }
+
+    public function getPageParameterName()
+    {
+        return $this->pageParameterName;
+    }
+
     protected function setPage($page)
     {
-        $this->session->set($this->getNs().'page', $page);
+        $this->session->set($this->getNs().$this->getPageParameterName(), $page);
     }
 
     protected function getPage()
     {
-        return $this->session->get($this->getNs().'page', 1);
+        return $this->session->get($this->getNs().$this->getPageParameterName(), 1);
     }
 
     public function getPaginator()
