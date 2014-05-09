@@ -289,10 +289,9 @@ class Manager {
         $filters = null;
 
         if ($this->form->isBound()) {
-            foreach ($this->form->getClientData() as $key => $value) {
-                $filters[$key] = $this->form[$key]->getClientData();
-            }//foreach
+            $filters = $this->form->getData();
         }
+
         $this->session->set($this->getNs().'filters', $filters);
     }
 
