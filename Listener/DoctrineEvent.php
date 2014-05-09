@@ -20,7 +20,7 @@ class DoctrineEvent
      *
      * @return void
      **/
-    public function __construct($options)
+    public function __construct(array $options = null)
     {
         if (!$options) {
             $options = array();
