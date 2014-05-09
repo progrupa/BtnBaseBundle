@@ -23,6 +23,7 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->scalarNode('livereload_port')->end()
                 ->scalarNode('livereload_enabled')->end()
+                ->variableNode('doctrine')->end()
             ->end();
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for
