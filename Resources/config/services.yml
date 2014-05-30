@@ -18,6 +18,14 @@ services:
         tags:
             - { name: twig.extension }
 
+    btn.twig.csrf_path_extension:
+        class:  Btn\BaseBundle\Twig\CsrfPathExtension
+        arguments:
+            router: "@router"
+            csrfProvider: "@form.csrf_provider"
+        tags:
+            - { name: twig.extension }
+
     btn.livereload_js:
         class: Btn\BaseBundle\Listener\ScriptInject
         arguments: ["%btn_base.livereload_port%", "%btn_base.livereload_enabled%"]
