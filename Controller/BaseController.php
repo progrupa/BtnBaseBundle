@@ -4,6 +4,7 @@ namespace Btn\BaseBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class BaseController extends Controller
 {
@@ -224,5 +225,31 @@ class BaseController extends Controller
             'perPage'      => $paginator->getItemNumberPerPage(),
             'results'      => $paginator->getItems(),
         );
+    }
+
+    /**
+     * Create access denied http exception
+     *
+     * @param  string $message
+     * @return \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
+     */
+    public function createAccessDeniedException($message = 'Access Denied')
+    {
+        return new AccessDeniedHttpException($message);
+    }
+
+    /**
+     * Validate csrf token or throw exception
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
+     *
+     * @param  string $intention csrf token group
+     * @param  string $token     token to validate
+     */
+    public function validateCsrfTokenOrThrowException($intention, $token)
+    {
+        if (!$this->get('form.csrf_provider')->isCsrfTokenValid($intention, $token)) {
+            throw $this->createAccessDeniedException('Invalid CSRF token.');
+        }
     }
 }
