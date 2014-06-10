@@ -34,11 +34,14 @@ class DoctrineEvent
         $reader      = new AnnotationReader;
         $metadata    = $eventArgs->getClassMetadata();
         $class       = $metadata->getReflectionClass();
-        $annotations = $reader->getClassAnnotations($class);
 
-        foreach ($annotations as $annotation) {
-            if ($annotation instanceof Table) {
-                $metadata->table['options'] = $this->options;
+        if ($class) {
+            $annotations = $reader->getClassAnnotations($class);
+
+            foreach ($annotations as $annotation) {
+                if ($annotation instanceof Table) {
+                    $metadata->table['options'] = $this->options;
+                }
             }
         }
     }
