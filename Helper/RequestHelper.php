@@ -1,6 +1,6 @@
 <?php
 
-namespace BtnBaseBundle\Helper;
+namespace Btn\BaseBundle\Helper;
 
 use Symfony\Component\HttpFoundation\Request;
 
