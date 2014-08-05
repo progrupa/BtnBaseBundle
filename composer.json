@@ -15,10 +15,7 @@
     ],
     "require": {
         "php": ">=5.3.3",
-        "symfony/symfony": "2.*",
-        "doctrine/orm": ">=2.2.3,<2.4-dev",
-        "knplabs/knp-paginator-bundle": ">=2.3",
-        "jms/serializer-bundle" : "*"
+        "symfony/symfony": "2.3.*"
     },
     "suggest": {
         "raulfraile/ladybug-bundle": "dev-master"

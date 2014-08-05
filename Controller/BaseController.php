@@ -17,7 +17,7 @@ class BaseController extends Controller
      */
     public function setFlash($message = 'success!', $type = 'success')
     {
-        $this->getRequest()->getSession()->setFlash($type, $message);
+        $this->get('session')->getFlashBag()->add($type, $message);
     }
 
     /**
@@ -196,52 +196,6 @@ class BaseController extends Controller
         return $this->container->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY');
     }
 
-    /**
-     * Restful view handler, return json data from any data using jms serializer
-     *
-     * @param  mixed $data
-     * @param  integer $code /http code
-     * @return json $data
-     **/
-    protected function renderRest($data, $code = 200)
-    {
-
-        return new Response($this->get('serializer')->serialize($data, 'json'), $code);
-    }
-
-    /**
-     * Get basic paginator for resource name
-     *
-     * @return Pagination $pagination
-     **/
-    protected function getPaginator($service, $perPage = 2)
-    {
-        //get manager
-        $manager = $this->container->get($service)
-            ->setNs($service)
-            ->setRequest($this->getRequest())
-            ->paginate($perPage)
-        ;
-
-        //we have a sliding pagination here with iterator interface
-        return $manager->getPagination();
-    }
-
-    /**
-     * Get basic pagination data
-     *
-     * @param Pagination $pagination
-     * @return array $data
-     **/
-    protected function getPaginatorDetails($paginator)
-    {
-        return array(
-            'current'      => $paginator->getCurrentPageNumber(),
-            'totalRecords' => $paginator->getTotalItemCount(),
-            'perPage'      => $paginator->getItemNumberPerPage(),
-            'results'      => $paginator->getItems(),
-        );
-    }
 
     /**
      * Create access denied http exception

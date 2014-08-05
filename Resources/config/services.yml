@@ -1,8 +1,4 @@
 services:
-    btn.rest_form:
-        class: Btn\BaseBundle\Model\RestForm
-        arguments:
-            translator: "@translator"
     btn.listener.preexecute:
         class: Btn\BaseBundle\Listener\PreExecute
         tags:
