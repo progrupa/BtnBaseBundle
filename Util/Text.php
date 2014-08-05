@@ -3,7 +3,6 @@
 namespace Btn\BaseBundle\Util;
 
 class Text {
-
     /**
     * Slugify the string
     */

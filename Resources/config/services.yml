@@ -1,4 +1,7 @@
 services:
+    btn.templating:
+        class: Btn\BaseBundle\Model\Templating
+
     btn.listener.preexecute:
         class: Btn\BaseBundle\Listener\PreExecute
         tags:
@@ -19,3 +22,16 @@ services:
             csrfProvider: "@form.csrf_provider"
         tags:
             - { name: twig.extension }
+
+    btn.livereload_js:
+        class: Btn\BaseBundle\Listener\ScriptInject
+        arguments: ["%btn_base.livereload_port%", "%btn_base.livereload_enabled%"]
+        tags:
+            - { name: kernel.event_subscriber }
+
+    btn.event.doctrine:
+        class: Btn\BaseBundle\Listener\DoctrineEvent
+        tags:
+            - { name: doctrine.event_listener, event: loadClassMetadata }
+        arguments:
+            options: '%btn_base.doctrine%'

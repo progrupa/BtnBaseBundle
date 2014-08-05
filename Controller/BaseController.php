@@ -30,16 +30,7 @@ class BaseController extends Controller
      */
     public function renderJson($content = '', $verdict = 'success', $custom = array())
     {
-        $result = array(
-            'verdict' => $verdict,
-            'content' => $content
-        );
-
-        if (!empty($custom) && is_array($custom)) {
-            $result = array_merge($result, $custom);
-        }
-
-        return $this->json($result);
+        return $this->container->get('btn.templating')->renderJson($content, $verdict, $custom);
     }
 
     /**
@@ -52,14 +43,7 @@ class BaseController extends Controller
      */
     public function json(array $array, Response $response = null)
     {
-        if (null === $response) {
-            $response = new Response();
-        }
-
-        $response->setContent(json_encode($array));
-        $response->headers->set('Content-type', 'text/plain');
-
-        return $response;
+        return $this->container->get('btn.templating')->json($array, $response);
     }
 
     /**
@@ -96,9 +80,9 @@ class BaseController extends Controller
      *
      * @return object or NULL if the entity was not found
      */
-    public function findEntity($class, $id, $managerName = null)
+    public function findEntity($class, $id = null, $managerName = null)
     {
-        return $this->getRepository($class, $managerName)->find($id);
+        return $id ? $this->getRepository($class, $managerName)->find($id) : null;
     }
 
     /**
@@ -195,7 +179,6 @@ class BaseController extends Controller
     {
         return $this->container->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY');
     }
-
 
     /**
      * Create access denied http exception
