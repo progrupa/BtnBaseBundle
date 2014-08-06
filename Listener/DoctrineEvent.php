@@ -31,7 +31,7 @@ class DoctrineEvent
 
     public function loadClassMetadata(LoadClassMetadataEventArgs $eventArgs)
     {
-        $reader      = new AnnotationReader;
+        $reader      = new AnnotationReader();
         $metadata    = $eventArgs->getClassMetadata();
         $class       = $metadata->getReflectionClass();
 

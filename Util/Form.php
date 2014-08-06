@@ -2,12 +2,13 @@
 
 namespace Btn\BaseBundle\Util;
 
-class Form {
+class Form
+{
     public static function getExpr($bindedData, $expr, $filters, $filterForm)
     {
         $result = array();
 
-        foreach ((array)$filters as $key => $field) {
+        foreach ((array) $filters as $key => $field) {
             if (isset($bindedData[$key])) {
 
                 $func = 'get'.ucfirst($key);
@@ -17,7 +18,7 @@ class Form {
                     if ($res) {
                         $result[] = $res;
                     }
-                }  else  {
+                } else {
                     $result[] = $expr->eq($field, $expr->literal($bindedData[$key]));
                 }
             }

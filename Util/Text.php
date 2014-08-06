@@ -2,7 +2,8 @@
 
 namespace Btn\BaseBundle\Util;
 
-class Text {
+class Text
+{
     /**
     * Slugify the string
     */
@@ -31,27 +32,23 @@ class Text {
     * Truncates +text+ to the length of +length+ and replaces the last three characters with the +truncate_string+
     * if the +text+ is longer than +length+.
     */
-    static public function truncate_text($text, $length = 30, $truncate_string = '...', $truncate_lastspace = false)
+    public static function truncate_text($text, $length = 30, $truncate_string = '...', $truncate_lastspace = false)
     {
-        if ($text == '')
-        {
+        if ($text == '') {
             return '';
         }
 
         $mbstring = extension_loaded('mbstring');
-        if($mbstring)
-        {
+        if ($mbstring) {
             @mb_internal_encoding(mb_detect_encoding($text));
         }
 
         $strlen = ($mbstring) ? 'mb_strlen' : 'strlen';
         $substr = ($mbstring) ? 'mb_substr' : 'substr';
 
-        if ($strlen($text) > $length)
-        {
+        if ($strlen($text) > $length) {
             $truncate_text = $substr($text, 0, $length - $strlen($truncate_string));
-            if ($truncate_lastspace)
-            {
+            if ($truncate_lastspace) {
                 $truncate_text = preg_replace('/\s+?(\S+)?$/', '', $truncate_text);
             }
 

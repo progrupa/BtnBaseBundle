@@ -9,8 +9,8 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 // based on the WebDebugToolbarListener
-class ScriptInject implements EventSubscriberInterface {
-
+class ScriptInject implements EventSubscriberInterface
+{
     protected $enabled;
     protected $host;
     protected $port;

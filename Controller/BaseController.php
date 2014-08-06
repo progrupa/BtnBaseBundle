@@ -183,7 +183,7 @@ class BaseController extends Controller
     /**
      * Create access denied http exception
      *
-     * @param  string $message
+     * @param  string                                                            $message
      * @return \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
      */
     public function createAccessDeniedException($message = 'Access Denied')
@@ -196,8 +196,8 @@ class BaseController extends Controller
      *
      * @throws \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
      *
-     * @param  string $intention csrf token group
-     * @param  string $token     token to validate
+     * @param string $intention csrf token group
+     * @param string $token     token to validate
      */
     public function validateCsrfTokenOrThrowException($intention, $token)
     {

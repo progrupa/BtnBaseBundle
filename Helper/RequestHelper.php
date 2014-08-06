@@ -30,7 +30,7 @@ class RequestHelper
     /**
      *
      */
-    public static function  isToolbarRequest(Request $request)
+    public static function isToolbarRequest(Request $request)
     {
         $attr = $request->attributes;
         $isToolbar = ($attr->get('_controller') == 'web_profiler.controller.profiler:toolbarAction' || $attr->get('_route') == '_wdt') ? true : false;
