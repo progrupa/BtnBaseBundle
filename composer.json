@@ -27,7 +27,8 @@
     "target-dir": "Btn/BaseBundle",
     "extra": {
         "branch-alias": {
-            "dev-master": "2.0-dev"
+            "dev-master": "2.0-dev",
+            "dev-master": "2.0.x-dev"
         }
     }
 }
