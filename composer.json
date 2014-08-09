@@ -6,6 +6,7 @@
     "homepage": "https://github.com/Bitnoise/BtnBaseBundle",
     "license": "MIT",
     "minimum-stability": "dev",
+    "prefer-stable": true,
     "authors": [
         {
             "name": "Bitnoise Team",
@@ -23,5 +24,10 @@
     "autoload": {
         "psr-0": { "Btn\\BaseBundle": "" }
     },
-    "target-dir": "Btn/BaseBundle"
+    "target-dir": "Btn/BaseBundle",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0-dev"
+        }
+    }
 }
