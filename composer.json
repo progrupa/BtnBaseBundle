@@ -19,7 +19,7 @@
         "symfony/symfony": "2.3.*"
     },
     "suggest": {
-        "raulfraile/ladybug-bundle": "dev-master"
+        "raulfraile/ladybug-bundle": "~1.0.0"
     },
     "autoload": {
         "psr-0": { "Btn\\BaseBundle": "" }
