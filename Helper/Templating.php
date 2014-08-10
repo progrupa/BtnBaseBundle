@@ -1,6 +1,6 @@
 <?php
 
-namespace Btn\BaseBundle\Model;
+namespace Btn\BaseBundle\Helper;
 
 use Symfony\Component\HttpFoundation\Response;
 

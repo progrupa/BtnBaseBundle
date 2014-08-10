@@ -1,0 +1,7 @@
+parameters:
+    btn_base.helper.templating.class: Btn\BaseBundle\Model\Templating
+    btn_base.event_listener.preexecute.class: Btn\BaseBundle\EventListener\PreExecuteListener
+    btn_base.event_listener.livereload.class:  Btn\BaseBundle\EventListener\LiveReloadListener
+    btn_base.event_listener.doctrine_table.class: Btn\BaseBundle\EventListener\DoctrineTableEventListener
+    btn_base.twig.size_extension.class: Btn\BaseBundle\Twig\SizeExtension
+    btn_base.twig.csrf_path_extension.class:  Btn\BaseBundle\Twig\CsrfPathExtension

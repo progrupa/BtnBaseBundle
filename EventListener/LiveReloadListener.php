@@ -1,6 +1,6 @@
 <?php
 
-namespace Btn\BaseBundle\Listener;
+namespace Btn\BaseBundle\EventListener;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -9,15 +9,15 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 // based on the WebDebugToolbarListener
-class ScriptInject implements EventSubscriberInterface
+class LiveReloadListener implements EventSubscriberInterface
 {
     protected $enabled;
     protected $host;
     protected $port;
 
-    public function __construct($port = 35729, $enabled = true)
+    public function __construct($enabled, $host, $port)
     {
-        $this->host    = 'localhost';
+        $this->host    = $host;
         $this->port    = $port;
         $this->enabled = $enabled;
     }
@@ -29,7 +29,7 @@ class ScriptInject implements EventSubscriberInterface
         }
 
         $response = $event->getResponse();
-        $request = $event->getRequest();
+        $request  = $event->getRequest();
 
         // do not capture redirects or modify XML HTTP Requests
         if ($request->isXmlHttpRequest()) {

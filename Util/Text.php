@@ -32,7 +32,7 @@ class Text
     * Truncates +text+ to the length of +length+ and replaces the last three characters with the +truncate_string+
     * if the +text+ is longer than +length+.
     */
-    public static function truncate_text($text, $length = 30, $truncate_string = '...', $truncate_lastspace = false)
+    public static function truncate($text, $length = 30, $truncate_string = '...', $truncate_lastspace = false)
     {
         if ($text == '') {
             return '';

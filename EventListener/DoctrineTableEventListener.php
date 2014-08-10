@@ -1,34 +1,27 @@
 <?php
 
-namespace Btn\BaseBundle\Listener;
+namespace Btn\BaseBundle\EventListener;
 
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\ORM\Mapping\Table;
 
-class DoctrineEvent
+class DoctrineTableEventListener
 {
-    /**
-     * standard options array from parameters
-     *
-     * @var array
-     **/
-    private $options;
+    /** @var array $options */
+    protected $options;
 
     /**
-     * standard construct
      *
-     * @return void
-     **/
-    public function __construct(array $options = null)
+     */
+    public function __construct(array $options)
     {
-        if (!$options) {
-            $options = array();
-        }
-
-        $this->options = array_merge(array('collate' => 'utf8_general_ci', 'charset' => 'utf8'), $options);
+        $this->options = $options;
     }
 
+    /**
+     *
+     */
     public function loadClassMetadata(LoadClassMetadataEventArgs $eventArgs)
     {
         $reader      = new AnnotationReader();
@@ -40,7 +33,7 @@ class DoctrineEvent
 
             foreach ($annotations as $annotation) {
                 if ($annotation instanceof Table) {
-                    $metadata->table['options'] = $this->options;
+                    $metadata->table['options'] = array_merge($metadata->table['options'], $this->options);
                 }
             }
         }

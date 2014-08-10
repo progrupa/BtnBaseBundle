@@ -21,13 +21,34 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('btn_base');
         $rootNode
             ->children()
-                ->scalarNode('livereload_port')->end()
-                ->scalarNode('livereload_enabled')->end()
-                ->variableNode('doctrine')->end()
+                ->arrayNode('livereload')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->booleanNode('enabled')->defaultValue(false)->end()
+                        ->scalarNode('host')->defaultValue('localhost')->end()
+                        ->integerNode('port')->defaultValue(35729)->end()
+                    ->end()
+                ->end()
+
+                ->arrayNode('doctrine')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->arrayNode('table')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->arrayNode('options')
+                                    ->addDefaultsIfNotSet()
+                                    ->children()
+                                        ->scalarNode('collate')->defaultValue('utf8_general_ci')->end()
+                                        ->scalarNode('charset')->defaultValue('utf8')->end()
+                                    ->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
             ->end();
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
+
         return $treeBuilder;
     }
 }

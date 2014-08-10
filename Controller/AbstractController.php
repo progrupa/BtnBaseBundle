@@ -30,7 +30,7 @@ abstract class AbstractController extends Controller
      */
     public function renderJson($content = '', $verdict = 'success', $custom = array())
     {
-        return $this->container->get('btn.templating')->renderJson($content, $verdict, $custom);
+        return $this->container->get('btn_base.helper.templating')->renderJson($content, $verdict, $custom);
     }
 
     /**
@@ -43,7 +43,7 @@ abstract class AbstractController extends Controller
      */
     public function json(array $array, Response $response = null)
     {
-        return $this->container->get('btn.templating')->json($array, $response);
+        return $this->container->get('btn_base.helper.templating')->json($array, $response);
     }
 
     /**
