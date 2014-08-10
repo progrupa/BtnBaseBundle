@@ -21,8 +21,9 @@
         "raulfraile/ladybug-bundle": "~1.0.0"
     },
     "autoload": {
-        "psr-4": { "Btn\\BaseBundle\\": "" }
+        "psr-0": { "Btn\\BaseBundle": "" }
     },
+    "target-dir": "Btn/BaseBundle",
     "extra": {
         "branch-alias": {
             "dev-master": "2.0-dev"
