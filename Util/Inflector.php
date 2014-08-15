@@ -98,7 +98,7 @@ class Inflector
      *
      * @access public
      * @static
-     * @param    string    $word    English noun to singularize
+     * @param  string $word English noun to singularize
      * @return string Singular noun.
      */
     public static function singularize($word)
@@ -175,10 +175,10 @@ class Inflector
      *
      * @access public
      * @static
-     * @param    string    $word    Word to format as tile
-     * @param    string    $uppercase    If set to 'first' it will only uppercase the
-     * first character. Otherwise it will uppercase all
-     * the words in the title.
+     * @param  string $word      Word to format as tile
+     * @param  string $uppercase If set to 'first' it will only uppercase the
+     *                           first character. Otherwise it will uppercase all
+     *                           the words in the title.
      * @return string Text formatted as title
      */
     public static function titleize($word, $uppercase = '')
@@ -198,7 +198,7 @@ class Inflector
      * @access public
      * @static
      * @see variablize
-     * @param    string    $word    Word to convert to camel case
+     * @param  string $word Word to convert to camel case
      * @return string UpperCamelCasedWord
      */
     public static function camelize($word)
@@ -216,7 +216,7 @@ class Inflector
      *
      * @access public
      * @static
-     * @param    string    $word    Word to underscore
+     * @param  string $word Word to underscore
      * @return string Underscored word
      */
     public static function underscore($word)
@@ -239,9 +239,9 @@ class Inflector
      *
      * @access public
      * @static
-     * @param    string    $word    String to "humanize"
-     * @param    string    $uppercase    If set to 'all' it will uppercase all the words
-     * instead of just the first one.
+     * @param  string $word      String to "humanize"
+     * @param  string $uppercase If set to 'all' it will uppercase all the words
+     *                           instead of just the first one.
      * @return string Human-readable word
      */
     public static function humanize($word, $uppercase = '')
@@ -261,7 +261,7 @@ class Inflector
      * @access public
      * @static
      * @see camelize
-     * @param    string    $word    Word to lowerCamelCase
+     * @param  string $word Word to lowerCamelCase
      * @return string Returns a lowerCamelCasedWord
      */
     public static function variablize($word)
@@ -297,7 +297,7 @@ class Inflector
      * @access public
      * @static
      * @see tableize
-     * @param    string    $table_name    Table name for getting related ClassName.
+     * @param  string $table_name Table name for getting related ClassName.
      * @return string SingularClassName
      */
     public static function classify($table_name)
@@ -312,8 +312,8 @@ class Inflector
      *
      * @access public
      * @static
-     * @param    integer    $number    Number to get its ordinal value
-     * @return string Ordinal representation of given string.
+     * @param  integer $number Number to get its ordinal value
+     * @return string  Ordinal representation of given string.
      */
     public static function ordinalize($number)
     {

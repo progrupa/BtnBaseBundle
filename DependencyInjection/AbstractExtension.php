@@ -97,4 +97,3 @@ abstract class AbstractExtension extends Extension implements PrependExtensionIn
         return $config;
     }
 }
-
