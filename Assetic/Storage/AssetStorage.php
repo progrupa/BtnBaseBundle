@@ -2,6 +2,8 @@
 
 namespace Btn\BaseBundle\Assetic\Storage;
 
+use Assetic\Asset\AssetInterface;
+
 class AssetStorage implements AssetStorageInterface
 {
     /** @var array $assets */
@@ -10,13 +12,13 @@ class AssetStorage implements AssetStorageInterface
     /**
      *
      */
-    public function add($group, $asset)
+    public function add($group, $key, AssetInterface $asset)
     {
         if (!$this->has($group)) {
             $this->assets[$group] = array();
         }
 
-        $this->assets[$group][$asset] = $asset;
+        $this->assets[$group][$key] = $asset;
     }
 
     /**
