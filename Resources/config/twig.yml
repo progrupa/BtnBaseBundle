@@ -1,0 +1,18 @@
+parameters:
+    btn_base.twig.file_size.class: Btn\BaseBundle\Twig\FileSizeExtension
+    btn_base.twig.csrf_path.class:  Btn\BaseBundle\Twig\CsrfPathExtension
+    btn_base.twig.asset_manager.class: Btn\BaseBundle\Twig\AssetManagerExtension
+
+services:
+    btn_base.twig.file_size:
+        class: %btn_base.twig.file_size.class%
+        tags:
+            - { name: twig.extension }
+
+    btn_base.twig.csrf_path:
+        class:  %btn_base.twig.csrf_path.class%
+        arguments:
+            router: @router
+            csrfProvider: @form.csrf_provider
+        tags:
+            - { name: twig.extension }

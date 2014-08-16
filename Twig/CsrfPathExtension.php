@@ -24,6 +24,9 @@ class CsrfPathExtension extends \Twig_Extension
         $this->csrfProvider = $csrfProvider;
     }
 
+    /**
+     *
+     */
     public function getFunctions()
     {
         return array(
@@ -31,6 +34,9 @@ class CsrfPathExtension extends \Twig_Extension
         );
     }
 
+    /**
+     *
+     */
     public function csrfPath($name, $parameters = array(), $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
     {
         if (empty($parameters['csrf_token'])) {
@@ -40,8 +46,11 @@ class CsrfPathExtension extends \Twig_Extension
         return $this->router->generate($name, $parameters, $referenceType);
     }
 
+    /**
+     *
+     */
     public function getName()
     {
-        return 'btn_csrf_path_extension';
+        return 'btn_base_csrf_path_extension';
     }
 }

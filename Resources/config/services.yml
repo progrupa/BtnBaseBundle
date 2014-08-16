@@ -1,14 +1,20 @@
-services:
+parameters:
+    btn_base.helper.templating.class: Btn\BaseBundle\Model\Templating
+    btn_base.event_listener.preexecute.class: Btn\BaseBundle\EventListener\PreExecuteListener
+    btn_base.event_listener.livereload.class:  Btn\BaseBundle\EventListener\LiveReloadListener
+    btn_base.event_listener.doctrine_table.class: Btn\BaseBundle\EventListener\DoctrineTableEventListener
+    btn_base.manager.asset.class: Btn\BaseBundle\Manager\AssetManager
 
+services:
     btn_base.helper.templating:
         class: %btn_base.helper.templating.class%
 
     btn_base.event_listener.preexecute:
         class: %btn_base.event_listener.preexecute.class%
+        arguments: [@controller_resolver]
         tags:
             - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
         priority: -1000
-        arguments: [@controller_resolver]
 
     btn_base.event_listener.livereload:
         class: %btn_base.event_listener.livereload.class%
@@ -18,19 +24,13 @@ services:
 
     btn_base.event_listener.doctrine_table:
         class: %btn_base.event_listener.doctrine_table.class%
+        arguments: [%btn_base.doctrine.table.options%]
         tags:
             - { name: doctrine.event_listener, event: loadClassMetadata }
-        arguments: [%btn_base.doctrine.table.options%]
 
-    btn_base.twig.size_extension:
-        class: %btn_base.twig.size_extension.class%
-        tags:
-            - { name: twig.extension }
-
-    btn_base.twig.csrf_path_extension:
-        class:  %btn_base.twig.csrf_path_extension.class%
+    btn_base.manager.asset:
+        class: %btn_base.manager.asset.class%
         arguments:
-            router: @router
-            csrfProvider: @form.csrf_provider
-        tags:
-            - { name: twig.extension }
+            manager: @assetic.asset_manager
+
+    btn_base.asset_manager: @btn_base.manager.asset

@@ -1,8 +1,12 @@
 <?php
+
 namespace Btn\BaseBundle\Twig;
 
-class SizeExtension extends \Twig_Extension
+class FileSizeExtension extends \Twig_Extension
 {
+    /**
+     *
+     */
     public function getFilters()
     {
         return array(
@@ -10,11 +14,17 @@ class SizeExtension extends \Twig_Extension
         );
     }
 
+    /**
+     *
+     */
     public function sizeFilter($number)
     {
         return $this->formatSizeUnits($number);
     }
 
+    /**
+     *
+     */
     private function formatSizeUnits($bytes)
     {
         if ($bytes >= 1073741824) {
@@ -34,8 +44,11 @@ class SizeExtension extends \Twig_Extension
         return $bytes;
     }
 
+    /**
+     *
+     */
     public function getName()
     {
-        return 'size_extension';
+        return 'btn_base_size_extension';
     }
 }
