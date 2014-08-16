@@ -94,6 +94,15 @@ abstract class AbstractExtension extends Extension implements PrependExtensionIn
 
         return $config;
     }
+
+    /**
+     *
+     */
+    protected function getBundleName()
+    {
+        return substr($this->getReflectionClass()->getShortName(), 0, -9) . 'Bundle';
+    }
+
     /**
      *
      */
