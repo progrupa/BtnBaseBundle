@@ -94,4 +94,15 @@ abstract class AbstractExtension extends Extension implements PrependExtensionIn
 
         return $config;
     }
+    /**
+     *
+     */
+    protected function getReflectionClass()
+    {
+        if (!$this->reflectionClass) {
+            $this->reflectionClass = new \ReflectionClass($this);
+        }
+
+        return $this->reflectionClass;
+    }
 }
