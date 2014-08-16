@@ -1,7 +1,7 @@
 parameters:
     btn_base.twig.file_size.class: Btn\BaseBundle\Twig\FileSizeExtension
     btn_base.twig.csrf_path.class:  Btn\BaseBundle\Twig\CsrfPathExtension
-    btn_base.twig.asset_storage.class: Btn\BaseBundle\Twig\AssetStorageExtension
+    btn_base.twig.asset.class: Btn\BaseBundle\Twig\AssetExtension
 
 services:
     btn_base.twig.file_size:
@@ -17,8 +17,8 @@ services:
         tags:
             - { name: twig.extension }
 
-    btn_base.twig.asset_storage:
-        class: %btn_base.twig.asset_storage.class%
+    btn_base.twig.asset:
+        class: %btn_base.twig.asset.class%
         arguments:
             storage: @btn_base.asset_storage
         tags:

@@ -3,8 +3,9 @@
 namespace Btn\BaseBundle\Twig;
 
 use Btn\BaseBundle\Assetic\Storage\AssetStorageInterface;
+use Assetic\Asset\AssetInterface;
 
-    class AssetStorageExtension extends \Twig_Extension
+class AssetExtension extends \Twig_Extension
 {
     /** @var \Btn\BaseBundle\Storage\AssetStorageInterface $storage */
     protected $storage;
@@ -23,7 +24,8 @@ use Btn\BaseBundle\Assetic\Storage\AssetStorageInterface;
     public function getFunctions()
     {
         return array(
-            'btn_get_assets' => new \Twig_Function_Method($this, 'getAssets'),
+            'btn_get_assets'    => new \Twig_Function_Method($this, 'getAssets'),
+            'btn_get_asset_src' => new \Twig_Function_Method($this, 'getSrc'),
         );
     }
 
@@ -38,8 +40,18 @@ use Btn\BaseBundle\Assetic\Storage\AssetStorageInterface;
     /**
      *
      */
+    public function getSrc(AssetInterface $asset)
+    {
+        $src = str_replace('_controller/', '', $asset->getTargetPath());
+
+        return $src;
+    }
+
+    /**
+     *
+     */
     public function getName()
     {
-        return 'btn_base.asset_storage_extension';
+        return 'btn_base.asset_extension';
     }
 }
