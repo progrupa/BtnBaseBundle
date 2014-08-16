@@ -33,7 +33,7 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('assetic')
                     ->addDefaultsIfNotSet()
                     ->children()
-                        ->booleanNode('auto_register_bundles')->defaultValue(false)->end()
+                        // ->booleanNode('auto_register_bundles')->defaultValue(false)->end()
                         ->booleanNode('ensure_combine')->info('')->defaultValue(true)->end()
                         ->booleanNode('skip_missing_assets')->defaultValue(false)->end()
                         ->arrayNode('remove_input_files')

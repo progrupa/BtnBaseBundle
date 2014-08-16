@@ -55,6 +55,14 @@ abstract class AbstractExtension extends Extension implements PrependExtensionIn
         if ($container->hasExtension('btn_nodes')) {
             $loader->tryLoad('node-cp');
         }
+
+        // $config = $this->getProcessedConfig($container, null, 'btn_base');
+        // automaticly register to assetic bundles
+        // if ($container->hasExtension('assetic')) {
+        //     $container->prependExtensionConfig('assetic', array(
+        //         'bundles' => array($this->getBundleName()),
+        //     ));
+        // }
     }
 
     /**
