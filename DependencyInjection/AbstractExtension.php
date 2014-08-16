@@ -25,6 +25,7 @@ abstract class AbstractExtension extends Extension implements PrependExtensionIn
         'services',
         'menus',
         'forms',
+        'twig',
     );
 
     /** @var array $bundleConfigFiles common extensions config files to autoload */
