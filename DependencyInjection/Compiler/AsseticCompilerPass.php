@@ -20,7 +20,7 @@ class AsseticCompilerPass implements CompilerPassInterface
         $skipMissingAssets = $container->getParameter('btn_base.assetic.skip_missing_assets');
 
         // Change asset factory to custom one with remove/replace functionality
-        $container->setParameter('assetic.asset_factory.class', 'Btn\\BaseBundle\\Factory\\AssetFactory');
+        $container->setParameter('assetic.asset_factory.class', 'Btn\\BaseBundle\\Assetic\\Factory\\AssetFactory');
 
         // inject files to viod via method call injection
         $definition = $container->getDefinition('assetic.asset_factory');

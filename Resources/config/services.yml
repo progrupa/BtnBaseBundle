@@ -3,7 +3,8 @@ parameters:
     btn_base.event_listener.preexecute.class: Btn\BaseBundle\EventListener\PreExecuteListener
     btn_base.event_listener.livereload.class:  Btn\BaseBundle\EventListener\LiveReloadListener
     btn_base.event_listener.doctrine_table.class: Btn\BaseBundle\EventListener\DoctrineTableEventListener
-    btn_base.manager.asset.class: Btn\BaseBundle\Manager\AssetManager
+    btn_base.assetic.storage.asset.class: Btn\BaseBundle\Assetic\Storage\AssetStorage
+    btn_base.assetic.loader.asset.class: Btn\BaseBundle\Assetic\Loader\AssetLoader
 
 services:
     btn_base.helper.templating:
@@ -28,9 +29,15 @@ services:
         tags:
             - { name: doctrine.event_listener, event: loadClassMetadata }
 
-    btn_base.manager.asset:
-        class: %btn_base.manager.asset.class%
+    btn_base.assetic.storage.asset:
+        class: %btn_base.assetic.storage.asset.class%
+
+    btn_base.asset_storage: @btn_base.assetic.storage.asset
+
+    btn_base.assetic.loader.asset:
+        class: %btn_base.assetic.loader.asset.class%
         arguments:
+            storage: @btn_base.assetic.storage.asset
             manager: @assetic.asset_manager
 
-    btn_base.asset_manager: @btn_base.manager.asset
+    btn_base.asset_loader: @btn_base.assetic.loader.asset

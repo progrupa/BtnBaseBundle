@@ -1,6 +1,6 @@
 <?php
 
-namespace Btn\BaseBundle\Factory;
+namespace Btn\BaseBundle\Assetic\Factory;
 
 use Symfony\Bundle\AsseticBundle\Factory\AssetFactory as BaseAssetFactory;
 
