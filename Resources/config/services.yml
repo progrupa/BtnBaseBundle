@@ -6,6 +6,8 @@ parameters:
     btn_base.event_listener.doctrine_table.class: Btn\BaseBundle\EventListener\DoctrineTableEventListener
     btn_base.assetic.storage.asset.class: Btn\BaseBundle\Assetic\Storage\AssetStorage
     btn_base.assetic.loader.asset.class: Btn\BaseBundle\Assetic\Loader\AssetLoader
+    btn_base.provider.entity.class: Btn\BaseBundle\Provider\EntityProvider
+    btn_base.provider.abstract_entity.class: Btn\BaseBundle\Provider\AbstractEntityProvider
 
 services:
     btn_base.helper.templating:
@@ -46,3 +48,9 @@ services:
             manager: @assetic.asset_manager
 
     btn_base.asset_loader: @btn_base.assetic.loader.asset
+
+    btn_base.provider.abstract_entity:
+        class: %btn_base.provider.abstract_entity.class%
+        abstract: true
+        calls:
+            - [setEntityManager, [@doctrine.orm.entity_manager]]
