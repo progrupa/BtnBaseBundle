@@ -38,12 +38,8 @@ abstract class AbstractExtension extends Extension implements PrependExtensionIn
     public function load(array $configs, ContainerBuilder $container)
     {
         // try to load bitnoise standard common bundle config files
-        try {
-            $loader = $this->getConfigLoader($container);
-            $loader->loadFromArray($this->bundleConfigFiles);
-        } catch (\InvalidArgumentException $e) {
-            // silently got through if file could not be loaded
-        }
+        $loader = $this->getConfigLoader($container);
+        $loader->tryLoadFromArray($this->bundleConfigFiles);
     }
 
     /**
@@ -52,11 +48,8 @@ abstract class AbstractExtension extends Extension implements PrependExtensionIn
     public function prepend(ContainerBuilder $container)
     {
         // try to load bitnoise standard common other extensions config files
-        try {
-            $loader = $this->getConfigLoader($container);
-            $loader->loadFromArray($this->commonExtensionsConfigFiles);
-        } catch (\InvalidArgumentException $e) {
-            // silently got through if file could not be loaded
+        $loader = $this->getConfigLoader($container);
+        $loader->tryLoadFromArray($this->commonExtensionsConfigFiles);
         }
     }
 
