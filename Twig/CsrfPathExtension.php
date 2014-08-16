@@ -30,7 +30,8 @@ class CsrfPathExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'csrf_path' => new \Twig_Function_Method($this, 'csrfPath'),
+            'btn_csrf_path' => new \Twig_Function_Method($this, 'csrfPath'),
+            'csrf_path'     => new \Twig_Function_Method($this, 'csrfPath'),
         );
     }
 
