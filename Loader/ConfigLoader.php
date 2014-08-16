@@ -23,10 +23,22 @@ class ConfigLoader extends YamlFileLoader
     /**
      *
      */
-    public function loadFromArray(array $fileArray, $type = null)
+    public function tryLoad($file, $type = null)
+    {
+        try {
+            return $this->load($file, $type);
+        } catch (\InvalidArgumentException $e) {
+            // silently got through if file could not be loaded
+        }
+    }
+
+    /**
+     *
+     */
+    public function tryLoadFromArray(array $fileArray, $type = null)
     {
         foreach ($fileArray as $file) {
-            $this->load($file);
+            $this->tryLoad($file);
         }
     }
 }
