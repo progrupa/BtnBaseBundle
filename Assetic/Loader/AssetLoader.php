@@ -24,14 +24,18 @@ class AssetLoader implements AssetLoaderInterface
     public function requset($group, $asset)
     {
         if (!$asset) {
-            throw new \Exception('Asset name must be defined');
+            throw new \Exception('Asset key must be defined');
         }
 
         if (!$group) {
-            throw new Exception('Asset group must be defined');
+            throw new \Exception('Asset group must be defined');
         }
 
-        $this->storage->add($group, $asset);
+        if (!$this->has($asset)) {
+            throw new \Exception(sprintf('Asset "%s" was not found in manager', $asset));
+        }
+
+        $this->storage->add($group, $asset, $this->manager->get($asset));
     }
 
     /**
@@ -58,11 +62,7 @@ class AssetLoader implements AssetLoaderInterface
                     $this->requset('javascripts', $asset.'_js');
                 }
             } else {
-                if ($this->has($asset)) {
-                    $this->requset($group, $asset);
-                } else {
-                    throw new \Exception(sprintf('Asset "%s" was not found in manager', $asset));
-                }
+                $this->requset($group, $asset);
             }
         }
     }
