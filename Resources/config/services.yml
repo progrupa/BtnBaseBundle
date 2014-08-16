@@ -26,7 +26,7 @@ services:
 
     btn_base.event_listener.livereload:
         class: %btn_base.event_listener.livereload.class%
-        arguments: ['%btn_base.livereload.enabled%', '%btn_base.livereload.host%', '%btn_base.livereload.port%']
+        arguments: [%btn_base.livereload.enabled%, %btn_base.livereload.host%, %btn_base.livereload.port%]
         tags:
             - { name: kernel.event_subscriber }
 
