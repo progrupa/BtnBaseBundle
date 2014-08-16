@@ -23,5 +23,9 @@ class BtnBaseExtension extends AbstractExtension
         $container->setParameter('btn_base.livereload.port', $config['livereload']['port']);
         $container->setParameter('btn_base.doctrine.table.options', $config['doctrine']['table']['options']);
 
+        $container->setParameter('btn_base.assetic.remove_input_files', $config['assetic']['remove_input_files']);
+        $container->setParameter('btn_base.assetic.replace_input_files', $config['assetic']['replace_input_files']);
+        $container->setParameter('btn_base.assetic.ensure_combine', $config['assetic']['ensure_combine']);
+        $container->setParameter('btn_base.assetic.skip_missing_assets', $config['assetic']['skip_missing_assets']);
     }
 }
