@@ -13,6 +13,9 @@ use Btn\BaseBundle\Loader\ConfigLoader;
  */
 abstract class AbstractExtension extends Extension implements PrependExtensionInterface
 {
+    /** @var \ReflectionClass $reflectionClass of \Btn\BaseBundle\DependencyInjection\AbstractExtension */
+    protected $reflectionClass;
+
     /** @var array $resourceDir common bundle config directory */
     protected $resourceDir = '/../Resources/config';
 
@@ -63,8 +66,7 @@ abstract class AbstractExtension extends Extension implements PrependExtensionIn
     protected function getConfigLoader(ContainerBuilder $container, $rootDir = null, $resourceDir = null)
     {
         if (null === $rootDir) {
-            $r = new \ReflectionClass($this);
-            $fileName = $r->getFileName();
+            $fileName = $this->getReflectionClass()->getFileName();
             $rootDir = substr($fileName, 0, strrpos($fileName, DIRECTORY_SEPARATOR));
         }
 
