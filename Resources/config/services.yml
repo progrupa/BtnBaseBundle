@@ -1,5 +1,6 @@
 parameters:
-    btn_base.helper.templating.class: Btn\BaseBundle\Model\Templating
+    btn_base.helper.templating.class: Btn\BaseBundle\Helper\Templating
+    btn_base.helper.bundle.class: Btn\BaseBundle\Helper\BundleHelper
     btn_base.event_listener.preexecute.class: Btn\BaseBundle\EventListener\PreExecuteListener
     btn_base.event_listener.livereload.class:  Btn\BaseBundle\EventListener\LiveReloadListener
     btn_base.event_listener.doctrine_table.class: Btn\BaseBundle\EventListener\DoctrineTableEventListener
@@ -9,6 +10,10 @@ parameters:
 services:
     btn_base.helper.templating:
         class: %btn_base.helper.templating.class%
+
+    btn_base.helper.bundle:
+        public: false
+        class: %btn_base.helper.bundle.class%
 
     btn_base.event_listener.preexecute:
         class: %btn_base.event_listener.preexecute.class%
