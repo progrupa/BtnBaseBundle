@@ -4,9 +4,6 @@ namespace Btn\BaseBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-/**
- *
- */
 class BtnBaseExtension extends AbstractExtension
 {
     /**
