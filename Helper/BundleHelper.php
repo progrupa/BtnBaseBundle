@@ -75,6 +75,14 @@ class BundleHelper
     /**
      *
      */
+    public function getUnderscoreControllerName($class)
+    {
+        return Container::underscore($this->getControllerName($class));
+    }
+
+    /**
+     *
+     */
     public function getTemplatePrefix($class)
     {
         $className      = $this->getClassName($class);
