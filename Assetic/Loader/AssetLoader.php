@@ -55,11 +55,18 @@ class AssetLoader implements AssetLoaderInterface
             }
             // if group is null then try to autoload css, js sufixes
             if (null === $group) {
-                if ($this->has($asset . '_css')) {
-                    $this->requset('stylesheets', $asset.'_css');
-                }
-                if ($this->has($asset . '_js')) {
-                    $this->requset('javascripts', $asset.'_js');
+                if ('_js' === substr($asset, -3)) {
+                    $this->requset('javascripts', $asset);
+                } elseif ('_css' === substr($asset, -4)) {
+                    $this->requset('stylesheets', $asset);
+                } else {
+                    // try to load by prefix
+                    if ($this->has($asset . '_css')) {
+                        $this->requset('stylesheets', $asset . '_css');
+                    }
+                    if ($this->has($asset . '_js')) {
+                        $this->requset('javascripts', $asset . '_js');
+                    }
                 }
             } else {
                 $this->requset($group, $asset);
