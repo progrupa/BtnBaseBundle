@@ -87,6 +87,17 @@ class BundleHelper
     /**
      *
      */
+    public function getRoutePrefix($class)
+    {
+        $bundleAlias    = $this->getBundleAlias($class);
+        $controllerName = $this->getControllerName($class);
+
+        return $bundleAlias . '_' . strtolower($controllerName);
+    }
+
+    /**
+     *
+     */
     public function getProviderId($class)
     {
         $className = $this->getClassName($class);
