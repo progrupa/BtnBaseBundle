@@ -51,8 +51,8 @@ abstract class AbstractExtension extends Extension implements PrependExtensionIn
         // try to load bitnoise standard common other extensions config files
         $loader = $this->getConfigLoader($container);
         $loader->tryLoadFromArray($this->commonExtensionsConfigFiles);
-        // try to load BtnNodesBundle content provider service definiton file
-        if ($container->hasExtension('btn_nodes')) {
+        // try to load BtnNodeBundle content provider service definiton file
+        if ($container->hasExtension('btn_node')) {
             $loader->tryLoad('node-cp');
         }
 
