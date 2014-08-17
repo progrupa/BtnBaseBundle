@@ -127,4 +127,12 @@ class BundleHelper
 
         return $bundleAlias . '.form.' . Container::underscore($controllerName);
     }
+
+    /**
+     *
+     */
+    public function getFormAlias($class)
+    {
+        return str_replace('.', '_', $this->getFormId($class));
+    }
 }
