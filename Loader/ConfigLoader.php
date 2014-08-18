@@ -41,4 +41,16 @@ class ConfigLoader extends YamlFileLoader
             $this->tryLoad($file);
         }
     }
+
+    /**
+     *
+     */
+    public function tryLoadForExtension($extension, $file = null, $type = null) {
+        if ($this->container->hasExtension($extension)) {
+            if (null === $file) {
+                $file = $extension;
+            }
+            return $this->tryLoad($file, $type);
+        }
+    }
 }
