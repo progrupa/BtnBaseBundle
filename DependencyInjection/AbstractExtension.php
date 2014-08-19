@@ -52,6 +52,8 @@ abstract class AbstractExtension extends Extension implements PrependExtensionIn
         $loader = $this->getConfigLoader($container);
         $loader->tryLoadFromArray($this->commonExtensionsConfigFiles);
         // try to load BtnNodeBundle content provider service definiton file
+        $loader->tryLoadForExtension('btn_node');
+        // @depricated
         $loader->tryLoadForExtension('btn_node', 'node-cp');
 
         // $config = $this->getProcessedConfig($container, null, 'btn_base');
