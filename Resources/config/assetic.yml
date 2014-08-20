@@ -1,0 +1,15 @@
+assetic:
+    assets:
+
+        # JS SECTION ###########################################################
+
+        btn_base_pubsub_js:
+            inputs:
+                - @BtnBaseBundle/Resources/public/vendor/pubsub-js/js/pubsub.js
+            output: js/btn_base.pubsub.js
+
+        btn_base_app_js:
+            inputs:
+                - @btn_base_pubsub_js
+                - @BtnBaseBundle/Resources/public/js/app.js
+            output: js/btn_base.app.js
