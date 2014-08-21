@@ -40,10 +40,10 @@ BtnApp.tools = {
         BtnApp.data.debug ? console.warn.error(console, arguments) : null;
     },
     isNode: function(o){
-        return (typeof Node === "object" ? o instanceof Node : o && typeof o === "object" && typeof o.nodeType === "number" && typeof o.nodeName==="string");
+        return (typeof Node === 'object' ? o instanceof Node : o && typeof o === 'object' && typeof o.nodeType === 'number' && typeof o.nodeName==='string');
     },
     isElement: function(o){
-        return (typeof HTMLElement === "object" ? o instanceof HTMLElement : o && typeof o === "object" && o !== null && o.nodeType === 1 && typeof o.nodeName==="string");
+        return (typeof HTMLElement === 'object' ? o instanceof HTMLElement : o && typeof o === 'object' && o !== null && o.nodeType === 1 && typeof o.nodeName==='string');
     },
     getContext: function(input) {
         if ('undefined' === typeof input) {
