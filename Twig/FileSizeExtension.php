@@ -49,6 +49,6 @@ class FileSizeExtension extends \Twig_Extension
      */
     public function getName()
     {
-        return 'btn_base_size_extension';
+        return 'btn_base.extension.file_size';
     }
 }

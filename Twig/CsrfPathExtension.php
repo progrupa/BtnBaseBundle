@@ -52,6 +52,6 @@ class CsrfPathExtension extends \Twig_Extension
      */
     public function getName()
     {
-        return 'btn_base_csrf_path_extension';
+        return 'btn_base.extension.csrf_path';
     }
 }

@@ -52,6 +52,6 @@ class AssetExtension extends \Twig_Extension
      */
     public function getName()
     {
-        return 'btn_base.asset_extension';
+        return 'btn_base.extension.asset';
     }
 }
