@@ -3,7 +3,7 @@ var BtnApp = {
     data: {
         debug: true
     },
-    triggerState: function (state, input) {
+    triggerEvent: function (state, input) {
         var statePrefixed = 'btn_admin.' + state;
         switch (typeof input) {
             case 'function':
@@ -18,13 +18,13 @@ var BtnApp = {
         }
     },
     init: function(input) {
-        this.triggerState('init', input);
+        this.triggerEvent('init', input);
     },
     ready: function(input) {
-        this.triggerState('ready', input);
+        this.triggerEvent('ready', input);
     },
     refresh: function(input) {
-        this.triggerState('refresh', input);
+        this.triggerEvent('refresh', input);
     },
 };
 
