@@ -6,6 +6,7 @@
     "homepage": "https://github.com/Bitnoise/BtnBaseBundle",
     "license": "MIT",
     "minimum-stability": "dev",
+    "prefer-stable": true,
     "authors": [
         {
             "name": "Bitnoise Team",
@@ -20,10 +21,15 @@
     "suggest": {
         "raulfraile/ladybug-bundle": "~1.0.0"
     },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "http://bitnoise.github.io/packages/"
+        }
+    ],
     "autoload": {
-        "psr-0": { "Btn\\BaseBundle": "" }
+        "psr-0": { "Btn\\BaseBundle\\": "src/" }
     },
-    "target-dir": "Btn/BaseBundle",
     "extra": {
         "branch-alias": {
             "dev-master": "2.0-dev"
