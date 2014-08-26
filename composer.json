@@ -28,7 +28,7 @@
         }
     ],
     "autoload": {
-        "psr-0": { "Btn\\BaseBundle\\": "src/" }
+        "psr-4": { "Btn\\BaseBundle\\": "src/Btn/BaseBundle" }
     },
     "extra": {
         "branch-alias": {
