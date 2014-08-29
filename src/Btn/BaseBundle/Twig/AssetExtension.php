@@ -42,9 +42,7 @@ class AssetExtension extends \Twig_Extension
      */
     public function getSrc(AssetInterface $asset)
     {
-        $src = str_replace('_controller/', '', $asset->getTargetPath());
-
-        return $src;
+        return $asset->getTargetPath();
     }
 
     /**
