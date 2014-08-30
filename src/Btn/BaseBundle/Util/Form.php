@@ -10,7 +10,6 @@ class Form
 
         foreach ((array) $filters as $key => $field) {
             if (isset($bindedData[$key])) {
-
                 $func = 'get'.ucfirst($key);
 
                 if (method_exists($filterForm, $func)) {

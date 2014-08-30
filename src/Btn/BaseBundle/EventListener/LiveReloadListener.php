@@ -8,7 +8,9 @@ use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-// based on the WebDebugToolbarListener
+/**
+ * based on the WebDebugToolbarListener
+ */
 class LiveReloadListener implements EventSubscriberInterface
 {
     protected $enabled;
@@ -39,7 +41,10 @@ class LiveReloadListener implements EventSubscriberInterface
         if (!$this->enabled
             || !$response->headers->has('X-Debug-Token')
             || $response->isRedirection()
-            || ($response->headers->has('Content-Type') && false === strpos($response->headers->get('Content-Type'), 'html'))
+            || (
+                $response->headers->has('Content-Type')
+                && false === strpos($response->headers->get('Content-Type'), 'html')
+            )
             || 'html' !== $request->getRequestFormat()
         ) {
             return;
@@ -73,7 +78,11 @@ class LiveReloadListener implements EventSubscriberInterface
                 return;
             }
 
-            $content = $substrFunction($content, 0, $pos)."\n<script src=\"$script\"></script>\n".$substrFunction($content, $pos);
+            $content = $substrFunction($content, 0, $pos)
+                ."\n<script src=\"$script\"></script>\n"
+                .$substrFunction($content, $pos)
+            ;
+
             $response->setContent($content);
         }
     }
@@ -84,5 +93,4 @@ class LiveReloadListener implements EventSubscriberInterface
             KernelEvents::RESPONSE => array('onKernelResponse', -127),
         );
     }
-
 }

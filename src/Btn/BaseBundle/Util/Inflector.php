@@ -73,14 +73,14 @@ class Inflector
         $lowercased_word = strtolower($word);
 
         foreach ($uncountable as $_uncountable) {
-            if (substr($lowercased_word,(-1*strlen($_uncountable))) == $_uncountable) {
-               return $word;
+            if (substr($lowercased_word, (-1*strlen($_uncountable))) == $_uncountable) {
+                return $word;
             }
         }
 
-        foreach ($irregular as $_plural=> $_singular) {
+        foreach ($irregular as $_plural => $_singular) {
             if (preg_match('/('.$_plural.')$/i', $word, $arr)) {
-                return preg_replace('/('.$_plural.')$/i', substr($arr[0],0,1).substr($_singular,1), $word);
+                return preg_replace('/('.$_plural.')$/i', substr($arr[0], 0, 1).substr($_singular, 1), $word);
             }
         }
 
@@ -143,14 +143,14 @@ class Inflector
         $lowercased_word = strtolower($word);
 
         foreach ($uncountable as $_uncountable) {
-            if (substr($lowercased_word,(-1*strlen($_uncountable))) == $_uncountable) {
+            if (substr($lowercased_word, (-1*strlen($_uncountable))) == $_uncountable) {
                 return $word;
             }
         }
 
-        foreach ($irregular as $_plural=> $_singular) {
+        foreach ($irregular as $_plural => $_singular) {
             if (preg_match('/('.$_singular.')$/i', $word, $arr)) {
-                return preg_replace('/('.$_singular.')$/i', substr($arr[0],0,1).substr($_plural,1), $word);
+                return preg_replace('/('.$_singular.')$/i', substr($arr[0], 0, 1).substr($_plural, 1), $word);
             }
         }
 
@@ -203,7 +203,7 @@ class Inflector
      */
     public static function camelize($word)
     {
-        return str_replace(' ','',ucwords(preg_replace('/[^A-Z^a-z^0-9]+/',' ',$word)));
+        return str_replace(' ', '', ucwords(preg_replace('/[^A-Z^a-z^0-9]+/', ' ', $word)));
     }
 
     /**
@@ -221,9 +221,10 @@ class Inflector
      */
     public static function underscore($word)
     {
-        return  strtolower(preg_replace('/[^A-Z^a-z^0-9]+/','_',
-            preg_replace('/([a-zd])([A-Z])/','\1_\2',
-            preg_replace('/([A-Z]+)([A-Z][a-z])/','\1_\2',$word))
+        return strtolower(preg_replace(
+            '/[^A-Z^a-z^0-9]+/',
+            '_',
+            preg_replace('/([a-zd])([A-Z])/', '\1_\2', preg_replace('/([A-Z]+)([A-Z][a-z])/', '\1_\2', $word))
         ));
     }
 
@@ -248,7 +249,7 @@ class Inflector
     {
         $uppercase = $uppercase == 'all' ? 'ucwords' : 'ucfirst';
 
-        return $uppercase(str_replace('_',' ',preg_replace('/_id$/', '',$word)));
+        return $uppercase(str_replace('_', ' ', preg_replace('/_id$/', '', $word)));
     }
 
     /**
@@ -268,7 +269,7 @@ class Inflector
     {
         $word = self::camelize($word);
 
-        return strtolower($word[0]).substr($word,1);
+        return strtolower($word[0]).substr($word, 1);
     }
 
     /**
@@ -317,7 +318,7 @@ class Inflector
      */
     public static function ordinalize($number)
     {
-        if (in_array(($number % 100),range(11,13))) {
+        if (in_array(($number % 100), range(11, 13))) {
             return $number.'th';
         } else {
             switch (($number % 10)) {

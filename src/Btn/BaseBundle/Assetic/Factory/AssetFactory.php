@@ -121,7 +121,7 @@ class AssetFactory extends BaseAssetFactory
         // replace input files that should be replaced
         if ($this->replaceInputFiles) {
             foreach ($inputs as $key => $file) {
-                if (isset($this->replaceInputFiles[$file]) ) {
+                if (isset($this->replaceInputFiles[$file])) {
                     $inputs[$key] = $this->replaceInputFiles[$file];
                 }
             }

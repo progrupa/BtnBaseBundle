@@ -145,7 +145,9 @@ abstract class AbstractController extends Controller
                 'The %s entity with %s was not found.',
                 $class,
                 implode(' and ', array_map(
-                    function ($k, $v) { sprintf('%s "%s"', $k, $v); },
+                    function ($k, $v) {
+                        sprintf('%s "%s"', $k, $v);
+                    },
                     array_flip($criteria),
                     $criteria
                 ))
@@ -165,7 +167,10 @@ abstract class AbstractController extends Controller
     */
     public function exceptionIfNotUserOrIsGranted($object, $roles = array('ROLE_ADMIN'))
     {
-        if (!$object->getUser()->getId() != $this->getUser()->getId() && $this->get('security.context')->isGranted($roles)) {
+        if (
+            !$object->getUser()->getId() != $this->getUser()->getId()
+            && $this->get('security.context')->isGranted($roles)
+        ) {
             throw $this->createNotFoundException('You can not do this');
         }
     }

@@ -53,9 +53,9 @@ class BundleHelper
      */
     public function getBundleAlias($class)
     {
-        $bn = $this->getBundleName($class);
+        $bundleName = $this->getBundleName($class);
 
-        return Container::underscore(substr($bn, 0, -6));
+        return Container::underscore(substr($bundleName, 0, -6));
     }
 
     /**

@@ -4,20 +4,40 @@ namespace Btn\BaseBundle\Util;
 
 class Text
 {
+    /** @var array $slugifyReplaceArray */
+    protected $slugifyReplaceArray = array(
+        'ą' => 'a',
+        'Ą' => 'A',
+        'ć' => 'c',
+        'Ć' => 'C',
+        'ę' => 'e',
+        'Ę' => 'E',
+        'ł' => 'l',
+        'Ł' => 'L',
+        'ń' => 'n',
+        'Ń' => 'N',
+        'ó' => 'o',
+        'Ó' => 'O',
+        'ś' => 's',
+        'Ś' => 'S',
+        'ź' => 'z',
+        'Ż' => 'Z',
+        'ż' => 'z',
+        'Ż' => 'Z',
+    );
+
     /**
     * Slugify the string
     */
-    public static function slugify($text, $strtolower = true, $replace_space = true)
+    public static function slugify($text, $strtolower = true, $replaceSpace = true)
     {
-        $org = array('ą', 'Ą', 'ć', 'Ć', 'ę', 'Ę', 'ł', 'Ł', 'ń', 'Ń', 'ó', 'Ó', 'ś', 'Ś', 'ź', 'Ź', 'ż', 'Ż');
-        $new = array('a', 'A', 'c', 'C', 'e', 'E', 'l', 'L', 'n', 'N', 'o', 'O', 's', 'S', 'z', 'Z', 'z', 'Z');
-        $text = str_replace($org, $new, $text);
+        $text = strtr($text, $this->slugifyReplaceArray);
 
         // strip all non word chars
         $text = preg_replace('/\W/', ' ', $text);
 
         // replace all white space sections with a dash
-        if ($replace_space) {
+        if ($replaceSpace) {
             $text = preg_replace('/\ +/', '-', $text);
         }
 
@@ -29,32 +49,30 @@ class Text
     }
 
     /**
-    * Truncates +text+ to the length of +length+ and replaces the last three characters with the +truncate_string+
+    * Truncates +text+ to the length of +length+ and replaces the last three characters with the +truncateString+
     * if the +text+ is longer than +length+.
     */
-    public static function truncate($text, $length = 30, $truncate_string = '...', $truncate_lastspace = false)
+    public static function truncate($text, $length = 30, $truncateString = '...', $truncateLastSpace = false)
     {
-        if ($text == '') {
-            return '';
-        }
-
-        $mbstring = extension_loaded('mbstring');
-        if ($mbstring) {
-            @mb_internal_encoding(mb_detect_encoding($text));
-        }
-
-        $strlen = ($mbstring) ? 'mb_strlen' : 'strlen';
-        $substr = ($mbstring) ? 'mb_substr' : 'substr';
-
-        if ($strlen($text) > $length) {
-            $truncate_text = $substr($text, 0, $length - $strlen($truncate_string));
-            if ($truncate_lastspace) {
-                $truncate_text = preg_replace('/\s+?(\S+)?$/', '', $truncate_text);
+        if (is_string($text) && '' !== $text) {
+            $mbstring = extension_loaded('mbstring');
+            if ($mbstring) {
+                @mb_internal_encoding(mb_detect_encoding($text));
             }
 
-            return $truncate_text.$truncate_string;
-        } else {
-            return $text;
+            $strlen = $mbstring ? 'mb_strlen' : 'strlen';
+            $substr = $mbstring ? 'mb_substr' : 'substr';
+
+            if ($strlen($text) > $length) {
+                $text = $substr($text, 0, $length - $strlen($truncateString));
+                if ($truncateLastSpace) {
+                    $text = preg_replace('/\s+?(\S+)?$/', '', $text);
+                }
+
+                $text .= $truncateString;
+            }
         }
+
+        return $text;
     }
 }

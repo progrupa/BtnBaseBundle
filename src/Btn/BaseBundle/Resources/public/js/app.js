@@ -1,4 +1,4 @@
-// main app object
+/* global PubSub, jQuery, Node, HTMLElement */
 var BtnApp = {
     data: {
         debug: true
@@ -64,4 +64,4 @@ BtnApp.tools = {
             .attr(selector + '-selected', true)
         ;
     }
-}
+};

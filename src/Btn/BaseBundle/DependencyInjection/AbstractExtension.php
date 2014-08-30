@@ -8,12 +8,9 @@ use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\Config\FileLocator;
 use Btn\BaseBundle\Loader\ConfigLoader;
 
-/**
- *
- */
 abstract class AbstractExtension extends Extension implements PrependExtensionInterface
 {
-    /** @var \ReflectionClass $reflectionClass of \Btn\BaseBundle\DependencyInjection\AbstractExtension */
+    /** @var \ReflectionClass $reflectionClass $reflectionClass */
     protected $reflectionClass;
 
     /** @var array $resourceDir common bundle config directory */
@@ -28,8 +25,8 @@ abstract class AbstractExtension extends Extension implements PrependExtensionIn
         'twig',
     );
 
-    /** @var array $bundleConfigFiles common extensions config files to autoload */
-    protected $commonExtensionsConfigFiles = array(
+    /** @var array $commonExtConfigFiles common extensions config files to autoload */
+    protected $commonExtConfigFiles = array(
         'assetic',
     );
 
@@ -50,7 +47,7 @@ abstract class AbstractExtension extends Extension implements PrependExtensionIn
     {
         // try to load bitnoise standard common other extensions config files
         $loader = $this->getConfigLoader($container);
-        $loader->tryLoadFromArray($this->commonExtensionsConfigFiles);
+        $loader->tryLoadFromArray($this->commonExtConfigFiles);
         // try to load BtnNodeBundle content provider service definiton file
         $loader->tryLoadForExtension('btn_node');
 
