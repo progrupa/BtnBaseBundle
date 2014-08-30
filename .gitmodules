@@ -1,0 +1,3 @@
+[submodule "tests-settings"]
+	path = tests-settings
+	url = https://github.com/Bitnoise/tests-settings.git

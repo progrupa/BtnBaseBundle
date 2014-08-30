@@ -18,6 +18,13 @@
         "php": ">=5.3.3",
         "symfony/symfony": "2.3.*"
     },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "~2.0.0",
+        "fabpot/php-cs-fixer": "~0.5.0",
+        "phpmd/phpmd": "~2.0.0",
+        "sebastian/phpcpd": "~2.0.0",
+        "asm89/twig-lint": "~1.0.0"
+    },
     "suggest": {
         "raulfraile/ladybug-bundle": "~1.0.0"
     },
