@@ -32,7 +32,7 @@ var BtnApp = (function (){
 })();
 
 // handy tools
-BtnApp.tools = (function($, undefined){
+BtnApp.tools = (function(){
     'use strict';
     return {
         log: function() {
@@ -70,4 +70,4 @@ BtnApp.tools = (function($, undefined){
             ;
         }
     };
-})(jQuery);
+})();
