@@ -53,11 +53,11 @@ class Inflector
             '/([ti])um$/i' => '\1a',
             '/(buffal|tomat)o$/i' => '\1oes',
             '/(bu)s$/i' => '\1ses',
-            '/(alias|status)/i'=> '\1es',
-            '/(octop|vir)us$/i'=> '\1i',
-            '/(ax|test)is$/i'=> '\1es',
-            '/s$/i'=> 's',
-            '/$/'=> 's',
+            '/(alias|status)/i' => '\1es',
+            '/(octop|vir)us$/i' => '\1i',
+            '/(ax|test)is$/i' => '\1es',
+            '/s$/i' => 's',
+            '/$/' => 's',
         );
 
         $uncountable = array('equipment', 'information', 'rice', 'money', 'species', 'series', 'fish', 'sheep');

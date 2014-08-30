@@ -74,7 +74,7 @@ abstract class AbstractExtension extends Extension implements PrependExtensionIn
             $resourceDir = $this->resourceDir;
         }
 
-        $loader = new ConfigLoader($container, new FileLocator($rootDir . $this->resourceDir));
+        $loader = new ConfigLoader($container, new FileLocator($rootDir.$this->resourceDir));
 
         return $loader;
     }
@@ -104,7 +104,7 @@ abstract class AbstractExtension extends Extension implements PrependExtensionIn
      */
     protected function getBundleName()
     {
-        return substr($this->getReflectionClass()->getShortName(), 0, -9) . 'Bundle';
+        return substr($this->getReflectionClass()->getShortName(), 0, -9).'Bundle';
     }
 
     /**

@@ -89,7 +89,7 @@ class BundleHelper
         $bundleName     = $this->getBundleName($className);
         $controllerName = $this->getControllerName($className);
 
-        return $bundleName . ':' . $controllerName . ':';
+        return $bundleName.':'.$controllerName.':';
     }
 
     /**
@@ -100,7 +100,7 @@ class BundleHelper
         $bundleAlias    = $this->getBundleAlias($class);
         $controllerName = $this->getControllerName($class);
 
-        return $bundleAlias . '_' . strtolower($controllerName);
+        return $bundleAlias.'_'.strtolower($controllerName);
     }
 
     /**
@@ -111,7 +111,7 @@ class BundleHelper
         $className = $this->getClassName($class);
 
         if (preg_match(('~\\\\([A-Za-z0-9]+)ControlController$~'), $className, $matches)) {
-            return $this->getBundleAlias($class) . '.provider.' . Container::underscore($matches[1]);
+            return $this->getBundleAlias($class).'.provider.'.Container::underscore($matches[1]);
         }
 
         throw new \Exception(sprintf('Could not get provider id from "%s"', $className));
@@ -125,7 +125,7 @@ class BundleHelper
         $bundleAlias    = $this->getBundleAlias($class);
         $controllerName = $this->getControllerName($class);
 
-        return $bundleAlias . '.form.' . Container::underscore($controllerName);
+        return $bundleAlias.'.form.'.Container::underscore($controllerName);
     }
 
     /**

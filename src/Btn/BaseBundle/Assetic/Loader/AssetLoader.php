@@ -61,11 +61,11 @@ class AssetLoader implements AssetLoaderInterface
                     $this->requset('stylesheets', $asset);
                 } else {
                     // try to load by prefix
-                    if ($this->has($asset . '_css')) {
-                        $this->requset('stylesheets', $asset . '_css');
+                    if ($this->has($asset.'_css')) {
+                        $this->requset('stylesheets', $asset.'_css');
                     }
-                    if ($this->has($asset . '_js')) {
-                        $this->requset('javascripts', $asset . '_js');
+                    if ($this->has($asset.'_js')) {
+                        $this->requset('javascripts', $asset.'_js');
                     }
                 }
             } else {
