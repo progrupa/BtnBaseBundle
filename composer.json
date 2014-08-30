@@ -35,7 +35,7 @@
         }
     ],
     "autoload": {
-        "psr-4": { "Btn\\BaseBundle\\": "src/Btn/BaseBundle" }
+        "psr-4": { "Btn\\BaseBundle\\": "src/Btn/BaseBundle/" }
     },
     "extra": {
         "branch-alias": {
