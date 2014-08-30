@@ -1,1 +1,19 @@
-tests-settings/.travis.yml
+language: php
+
+php:
+    - 5.6
+    - 5.5
+    - 5.4
+    - 5.3
+
+install:
+    - composer install
+    - npm install -g grunt-cli
+    - npm install
+
+script: grunt test
+
+notifications:
+    hipchat:
+        rooms:
+            secure: MOYYIlIAQl6fzZQNYVcjy8A112gokN33CTMAh1ZiwyjGI6QBJp1UOi4RwzF70KtKpj3Yxe/bKfNmVdv0wG/Lwe/EZfZoArkEKKoHZtbEIMtC+wHR9vNBjNmhV0bPdF8KJhTQs6ac5W3KBnfROCkCD9ZY90adWpGzVF+J9h2IuwA=
