@@ -6,7 +6,7 @@ parameters:
     btn_base.event_listener.doctrine_table.class: Btn\BaseBundle\EventListener\DoctrineTableEventListener
     btn_base.assetic.storage.asset.class: Btn\BaseBundle\Assetic\Storage\AssetStorage
     btn_base.assetic.loader.asset.class: Btn\BaseBundle\Assetic\Loader\AssetLoader
-    btn_base.assetic.factory.worker.use_controller.class: Btn\BaseBundle\Assetic\Factory\Worker\UseControllerWorker
+    btn_base.assetic.factory.worker.unuse_controller.class: Btn\BaseBundle\Assetic\Factory\Worker\UnuseControllerWorker
     btn_base.provider.entity.class: Btn\BaseBundle\Provider\EntityProvider
     btn_base.provider.abstract_entity.class: Btn\BaseBundle\Provider\AbstractEntityProvider
 
@@ -48,10 +48,9 @@ services:
             storage: @btn_base.assetic.storage.asset
             manager: @assetic.asset_manager
 
-    btn_base.assetic.factory.worker.use_controller:
-        class: %btn_base.assetic.factory.worker.use_controller.class%
-        tags:
-            - { name: assetic.factory_worker }
+    btn_base.assetic.factory.worker.unuse_controller:
+        class: %btn_base.assetic.factory.worker.unuse_controller.class%
+        public: false
 
     btn_base.asset_loader: @btn_base.assetic.loader.asset
 

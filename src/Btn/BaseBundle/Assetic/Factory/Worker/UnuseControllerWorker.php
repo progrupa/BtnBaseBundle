@@ -5,7 +5,7 @@ namespace Btn\BaseBundle\Assetic\Factory\Worker;
 use Assetic\Asset\AssetInterface;
 use Assetic\Factory\Worker\WorkerInterface;
 
-class UseControllerWorker implements WorkerInterface
+class UnuseControllerWorker implements WorkerInterface
 {
     /**
      * {@inheritdoc}
