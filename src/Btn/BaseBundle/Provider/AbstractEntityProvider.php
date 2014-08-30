@@ -84,9 +84,7 @@ abstract class AbstractEntityProvider implements EntityProviderInterface
      */
     public function delete($entity, $andFlush = true)
     {
-        if (!$this->supports($entity)) {
-            throw new \Exception('This provider does not supports this entity type');
-        }
+        $this->checkSupportOrThrowException($entity);
 
         $this->em->remove($entity);
 
@@ -100,9 +98,7 @@ abstract class AbstractEntityProvider implements EntityProviderInterface
      */
     public function save($entity, $andFlush = true)
     {
-        if (!$this->supports($entity)) {
-            throw new \Exception('This provider does not supports this entity type');
-        }
+        $this->checkSupportOrThrowException($entity);
 
         if (!$entity->getId()) {
             $this->em->persist($entity);
@@ -110,6 +106,28 @@ abstract class AbstractEntityProvider implements EntityProviderInterface
 
         if ($andFlush) {
             $this->em->flush($entity);
+        }
+    }
+
+    /**
+     *
+     */
+    protected function checkSupportOrThrowException($entity)
+    {
+        if (!is_object($entity)) {
+            throw new \Exception(sprintf(
+                'Invalid argument for "%s". Object required, "%s" given.',
+                __CLASS__,
+                gettype($entity)
+            ));
+        }
+
+        if (!$this->supports($entity)) {
+            throw new \Exception(sprinf(
+                'This provider only supports "%s", "%s" is given.',
+                $this->getClass(),
+                get_class($entity)
+            ));
         }
     }
 }
