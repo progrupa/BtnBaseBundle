@@ -21,5 +21,7 @@ services:
         class: %btn_base.twig.assetic.class%
         arguments:
             storage: @btn_base.asset_storage
+            manager: @btn_base.asset_manager
+            loader: @btn_base.asset_loader
         tags:
             - { name: twig.extension }

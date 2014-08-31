@@ -3,19 +3,27 @@
 namespace Btn\BaseBundle\Twig;
 
 use Btn\BaseBundle\Assetic\Storage\AssetStorageInterface;
-use Btn\BaseBundle\Twig\TokenParser\AsseticTokenParser;
+use Btn\BaseBundle\Assetic\Manager\AssetManager;
+use Btn\BaseBundle\Assetic\Loader\AssetLoaderInterface;
+use Btn\BaseBundle\Twig\TokenParser\AssetTokenParser;
 
 class AsseticExtension extends \Twig_Extension
 {
-    /** @var \Btn\BaseBundle\Storage\AssetStorageInterface $storage */
+    /** @var \Btn\BaseBundle\Assetic\Storage\AssetStorageInterface $storage */
     protected $storage;
+    /** @var \Btn\BaseBundle\Assetic\Manager\AssetManager $manager */
+    protected $manager;
+    /** @var \Btn\BaseBundle\Assetic\Loader\AssetLoaderInterface $loader */
+    protected $loader;
 
     /**
      *
      */
-    public function __construct(AssetStorageInterface $storage)
+    public function __construct(AssetStorageInterface $storage, AssetManager $manager, AssetLoaderInterface $loader)
     {
         $this->storage = $storage;
+        $this->manager = $manager;
+        $this->loader  = $loader;
     }
 
     /**
@@ -24,7 +32,7 @@ class AsseticExtension extends \Twig_Extension
     public function getTokenParsers()
     {
         return array(
-            new AsseticTokenParser($this->factory, $this->storage),
+            new AssetTokenParser($this->manager),
         );
     }
 
@@ -34,7 +42,9 @@ class AsseticExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'btn_get_assets' => new \Twig_Function_Method($this, 'getAssets'),
+            'btn_get_assets'    => new \Twig_Function_Method($this, 'getAssets'),
+            'btn_request_asset' => new \Twig_Function_Method($this, 'requestAsset'),
+            'btn_load_assets'   => new \Twig_Function_Method($this, 'loadAssets'),
         );
     }
 
@@ -44,6 +54,22 @@ class AsseticExtension extends \Twig_Extension
     public function getAssets($group)
     {
         return $this->storage->get($group);
+    }
+
+    /**
+     *
+     */
+    public function requestAsset($group, $asset)
+    {
+        $this->loader->requset($group, $asset);
+    }
+
+    /**
+     *
+     */
+    public function loadAssets($assets)
+    {
+        $this->loader->load($assets);
     }
 
     /**
