@@ -12,6 +12,9 @@ class AssetLoader implements AssetLoaderInterface
     /** @var \Assetic\AssetManager $manager */
     protected $manager;
 
+    /**
+     *
+     */
     public function __construct(AssetStorageInterface $storage, \Assetic\AssetManager $manager)
     {
         $this->storage = $storage;
