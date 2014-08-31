@@ -16,5 +16,6 @@ class BtnBaseBundle extends Bundle
         parent::build($container);
 
         $container->addCompilerPass(new Compiler\AsseticCompilerPass());
+        $container->addCompilerPass(new Compiler\AssetManagerCompilerPass());
     }
 }
