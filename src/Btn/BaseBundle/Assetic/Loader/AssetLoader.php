@@ -3,6 +3,7 @@
 namespace Btn\BaseBundle\Assetic\Loader;
 
 use Btn\BaseBundle\Assetic\Storage\AssetStorageInterface;
+use Assetic\AssetManager;
 
 class AssetLoader implements AssetLoaderInterface
 {
@@ -15,7 +16,7 @@ class AssetLoader implements AssetLoaderInterface
     /**
      *
      */
-    public function __construct(AssetStorageInterface $storage, \Assetic\AssetManager $manager)
+    public function __construct(AssetStorageInterface $storage, AssetManager $manager)
     {
         $this->storage = $storage;
         $this->manager = $manager;
