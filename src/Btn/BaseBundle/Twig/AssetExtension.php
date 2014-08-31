@@ -7,7 +7,7 @@ use Btn\BaseBundle\Assetic\Manager\AssetManager;
 use Btn\BaseBundle\Assetic\Loader\AssetLoaderInterface;
 use Btn\BaseBundle\Twig\TokenParser\AssetTokenParser;
 
-class AsseticExtension extends \Twig_Extension
+class AssetExtension extends \Twig_Extension
 {
     /** @var \Btn\BaseBundle\Assetic\Storage\AssetStorageInterface $storage */
     protected $storage;
@@ -77,6 +77,6 @@ class AsseticExtension extends \Twig_Extension
      */
     public function getName()
     {
-        return 'btn_base.extension.assetic';
+        return 'btn_base.extension.asset';
     }
 }
