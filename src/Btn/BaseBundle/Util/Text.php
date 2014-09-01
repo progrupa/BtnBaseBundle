@@ -5,7 +5,7 @@ namespace Btn\BaseBundle\Util;
 class Text
 {
     /** @var array $slugifyReplaceArray */
-    protected $slugifyReplaceArray = array(
+    static protected $slugifyReplaceArray = array(
         'ą' => 'a',
         'Ą' => 'A',
         'ć' => 'c',
@@ -31,7 +31,7 @@ class Text
     */
     public static function slugify($text, $strtolower = true, $replaceSpace = true)
     {
-        $text = strtr($text, $this->slugifyReplaceArray);
+        $text = strtr($text, self::$slugifyReplaceArray);
 
         // strip all non word chars
         $text = preg_replace('/\W/', ' ', $text);
