@@ -38,7 +38,7 @@ abstract class AbstractFilter
     }
 
     /**
-     * @param AbstractType $form
+     * @param  AbstractType   $form
      * @return AbstractFilter
      */
     public function setForm(AbstractType $form)
@@ -65,7 +65,7 @@ abstract class AbstractFilter
     }
 
     /**
-     * @param Request $request
+     * @param  Request        $request
      * @return AbstractFilter
      */
     public function setRequest(Request $request)
@@ -117,7 +117,7 @@ abstract class AbstractFilter
         foreach ($fields as $field) {
             if (($value = $this->getValue($field))) {
                 $this->qb
-                    ->andWhere($alias . '.' . $field . ' = :' . $field)
+                    ->andWhere($alias.'.'.$field.' = :'.$field)
                     ->setParameter($field, $value)
                 ;
             }
