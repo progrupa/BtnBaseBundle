@@ -4,7 +4,6 @@ namespace Btn\BaseBundle\Filter;
 
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 
 /**
