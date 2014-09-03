@@ -28,44 +28,19 @@ class BaseFilter
     protected $qb;
 
     /**
-     * @var string
+     * @var EntityProvider
      */
-    protected $bundleNamespace;
-
-    /**
-     * @var string
-     */
-    protected $entityName;
-
-    /**
-     * @var string
-     */
-    protected $entityNamespace;
-
-    /**
-     * @var array
-     */
-    protected $query = array();
-
-    /**
-     * @var EntityManager
-     */
-    protected $em;
+    protected $ep;
 
     /**
      * Set repository
      *
-     * @param EntityManager $em
-     * @param string $bundleNamespace
-     * @param string $entityName
+     * @param EntityProvider $ep
      */
-    public function __construct(EntityManager $em, $bundleNamespace, $entityName)
+    public function __construct(EntityProvider $ep)
     {
-        $this->bundleNamespace = $bundleNamespace;
-        $this->entityNamespace = $bundleNamespace . '\Entity\\' . $entityName;
-        $this->entityName      = $entityName;
-        $this->repo            = $em->getRepository($bundleNamespace . '\Entity\\' . $entityName);
-        $this->em              = $em;
+        $this->ep   = $ep;
+        $this->repo = $ep->getRepository();
     }
 
     /**
@@ -74,7 +49,6 @@ class BaseFilter
     public function setRequest(Request $request)
     {
         $this->request = $request;
-        $this->query   = array_merge($request->query->all(), $request->request->all());
     }
 
     /**
