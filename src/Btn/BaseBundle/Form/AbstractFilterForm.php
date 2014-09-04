@@ -2,7 +2,7 @@
 
 namespace Btn\BaseBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
+use Btn\BaseBundle\Form\Type\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 abstract class AbstractFilterForm extends AbstractType
