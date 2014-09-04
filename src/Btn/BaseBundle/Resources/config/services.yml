@@ -10,6 +10,7 @@ parameters:
     btn_base.assetic.factory.worker.unuse_controller.class: Btn\BaseBundle\Assetic\Factory\Worker\UnuseControllerWorker
     btn_base.provider.entity.class: Btn\BaseBundle\Provider\EntityProvider
     btn_base.provider.abstract_entity.class: Btn\BaseBundle\Provider\AbstractEntityProvider
+    btn_base.filter.abstract_filter.class: Btn\BaseBundle\Filter\AbstractFilter
 
 services:
     btn_base.helper.templating:
@@ -69,3 +70,9 @@ services:
         abstract: true
         calls:
             - [setEntityManager, [@doctrine.orm.entity_manager]]
+
+    btn_base.filter.abstract_filter:
+        class: %btn_base.filter.abstract_filter.class%
+        abstract: true
+        calls:
+            - [setFormFactory, [@form.factory]]

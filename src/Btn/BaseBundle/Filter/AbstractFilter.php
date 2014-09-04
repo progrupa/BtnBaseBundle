@@ -2,54 +2,90 @@
 
 namespace Btn\BaseBundle\Filter;
 
-use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\AbstractType;
+use Btn\BaseBundle\Form\AbstractFilterForm;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\FormInterface;
 use Btn\BaseBundle\Provider\EntityProviderInterface;
 
 /**
  * Base filter class
  */
-abstract class AbstractFilter
+abstract class AbstractFilter implements FilterInterface
 {
     /** @var \Btn\BaseBundle\Provider\EntityProviderInterface $entityProvider */
     protected $entityProvider;
     /** @var \Doctrine\ORM\QueryBuilder $queryBuilder */
     protected $queryBuilder;
-    /** @var \Symfony\Component\Form\AbstractType $form */
+    /** @var \Btn\BaseBundle\Form\AbstractFilterForm $type */
+    protected $type;
+    /** @var \Symfony\Component\Form\FormInterface $form */
     protected $form;
     /** @var \Symfony\Component\Form\FormFactoryInterface $formFactory */
     protected $formFactory;
     /** @var \Symfony\Component\HttpFoundation\Request $requset */
     protected $request;
-    /** @var \Doctrine\ORM\QueryBuilder $queryBuilder */
-    protected $queryBuilder;
 
     /**
-     * Set repository
-     *
-     * @param EntityProvider $ep
+     * {@inheritdoc}
      */
-    public function __construct(EntityProvider $entityProvider)
+    public function setEntityProvider(EntityProviderInterface $entityProvider)
     {
         $this->entityProvider = $entityProvider;
-    }
 
-    /**
-     * @param  AbstractType   $form
-     * @return AbstractFilter
-     */
-    public function setForm(AbstractType $form)
-    {
-        $this->form = $form;
+        if (!$this->queryBuilder) {
+            $repo = $this->entityProvider->getRepository();
+            if (method_exists($repo, 'getFilterQueryBuilder')) {
+                $this->queryBuilder = $repo->getFilterQueryBuilder();
+            } elseif (method_exists($repo, 'getBaseQueryBuilder')) {
+                $this->queryBuilder = $repo->getBaseQueryBuilder();
+            }
+        }
 
         return $this;
     }
 
     /**
-     * @return AbstractFilter
+     * {@inheritdoc}
+     */
+    public function getEntityProvider()
+    {
+        return $this->entityProvider;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setType(AbstractFilterForm $type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setForm(FormInterface $form)
+    {
+        $this->form = $form;
+
+        $this->handleRequest();
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function getForm()
     {
@@ -57,16 +93,39 @@ abstract class AbstractFilter
     }
 
     /**
-     *
+     * {@inheritdoc}
      */
-    public function createForm($data = null, array $options = array())
+    public function setFormFactory(FormFactoryInterface $formFactory)
     {
-        return $this->formFactory->create($this->getForm(), $data, $options);
+        $this->formFactory = $formFactory;
     }
 
     /**
-     * @param  Request        $request
-     * @return AbstractFilter
+     * {@inheritdoc}
+     */
+    public function createForm($data = null, array $options = array())
+    {
+        $form = $this->formFactory->create($this->getType(), $data, $options);
+
+        $this->setForm($form);
+
+        return $this->getForm();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createNamedForm($name = '', $data = null, array $options = array())
+    {
+        $form = $this->formFactory->createNamed($name, $this->getType(), $data, $options);
+
+        $this->setForm($form);
+
+        return $this->getForm();
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function setRequest(Request $request)
     {
@@ -76,15 +135,53 @@ abstract class AbstractFilter
     }
 
     /**
-     * @return QueryBuilder
+     * {@inheritdoc}
+     */
+    public function getRequest()
+    {
+        return $this->request;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function handleRequest(Request $request = null)
+    {
+        if ($request) {
+            $this->setRequest($request);
+        }
+
+        if ($this->request && $this->form) {
+            $this->form->handleRequest($this->request);
+        }
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setQueryBuilder(QueryBuilder $queryBuilder)
+    {
+        $this->queryBuilder = $queryBuilder;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function getQueryBuilder()
     {
+        if (!$this->queryBuilder) {
+            throw new \Exception('Query builder was not injected via setQueryBuilder() or setEntityProvider()');
+        }
+
         return $this->queryBuilder;
     }
 
     /**
-     * @return Query
+     * {@inheritdoc}
      */
     public function getQuery()
     {
@@ -92,7 +189,7 @@ abstract class AbstractFilter
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public function getResult()
     {
@@ -100,27 +197,23 @@ abstract class AbstractFilter
     }
 
     /**
-     *
+     * {@inheritdoc}
      */
     public function getValue($field, $default = null)
     {
-        return $this->request->get($field, $default);
+        if (($form = $this->getForm())) {
+            return $form->get($field)->getData() ?: $default;
+        }
+
+        if (($request = $this->getRequest())) {
+            return $request->get($field, $default);
+        }
+
+        throw new \Exception();
     }
 
     /**
-     * Bind fields from array
-     *
-     * @return void
+     * {@inheritdoc}
      */
-    public function exprFields(array $fields, $alias)
-    {
-        foreach ($fields as $field) {
-            if (($value = $this->getValue($field))) {
-                $this->qb
-                    ->andWhere($alias.'.'.$field.' = :'.$field)
-                    ->setParameter($field, $value)
-                ;
-            }
-        }
-    }
+    abstract public function applyFilters();
 }
