@@ -24,7 +24,7 @@ abstract class AbstractFilter implements FilterInterface
     protected $form;
     /** @var \Symfony\Component\Form\FormFactoryInterface $formFactory */
     protected $formFactory;
-    /** @var \Symfony\Component\HttpFoundation\Request $requset */
+    /** @var \Symfony\Component\HttpFoundation\Request $request */
     protected $request;
 
     /**

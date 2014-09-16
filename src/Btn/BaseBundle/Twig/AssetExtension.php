@@ -61,7 +61,7 @@ class AssetExtension extends \Twig_Extension
      */
     public function requestAsset($group, $asset)
     {
-        $this->loader->requset($group, $asset);
+        $this->loader->request($group, $asset);
     }
 
     /**

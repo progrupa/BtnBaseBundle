@@ -25,7 +25,7 @@ class AssetLoader implements AssetLoaderInterface
     /**
      *
      */
-    public function requset($group, $asset)
+    public function request($group, $asset)
     {
         if (!$asset) {
             throw new \Exception('Asset key must be defined');
@@ -60,20 +60,20 @@ class AssetLoader implements AssetLoaderInterface
             // if group is null then try to autoload css, js sufixes
             if (null === $group) {
                 if ('_js' === substr($asset, -3)) {
-                    $this->requset('javascripts', $asset);
+                    $this->request('javascripts', $asset);
                 } elseif ('_css' === substr($asset, -4)) {
-                    $this->requset('stylesheets', $asset);
+                    $this->request('stylesheets', $asset);
                 } else {
                     // try to load by prefix
                     if ($this->has($asset.'_css')) {
-                        $this->requset('stylesheets', $asset.'_css');
+                        $this->request('stylesheets', $asset.'_css');
                     }
                     if ($this->has($asset.'_js')) {
-                        $this->requset('javascripts', $asset.'_js');
+                        $this->request('javascripts', $asset.'_js');
                     }
                 }
             } else {
-                $this->requset($group, $asset);
+                $this->request($group, $asset);
             }
         }
     }
