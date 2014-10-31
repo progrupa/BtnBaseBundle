@@ -16,10 +16,10 @@ class BundleHelper
     {
         $hash = spl_object_hash($class);
         if (!isset($this->reflectionClasses[$hash])) {
-            $this->reflectionClass[$hash] = new \ReflectionClass($class);
+            $this->reflectionClasses[$hash] = new \ReflectionClass($class);
         }
 
-        return $this->reflectionClass[$hash];
+        return $this->reflectionClasses[$hash];
     }
 
     /**
