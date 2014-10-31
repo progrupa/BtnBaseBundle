@@ -42,7 +42,10 @@ class BundleHelper
         $className = $this->getClassName($class);
 
         if (preg_match(('~[A-Za-z\\\\0-9]+Bundle~'), $className, $matches)) {
-            return str_replace('\\', '', $matches[0]);
+            $bundleName = str_replace('\\', '', $matches[0]);
+            $bundleName = preg_replace('~^SymfonyBundle~', '', $bundleName);
+
+            return $bundleName;
         }
 
         throw new \Exception(sprintf('Could not get bundle name from "%s"', $className));
