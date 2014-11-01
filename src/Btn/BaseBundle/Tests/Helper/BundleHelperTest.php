@@ -30,13 +30,13 @@ class BundleHelperTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetReflectionClass()
     {
-        $controllerRefClass         = $this->helper->getReflectionClass($this->controller);
-        $cachedControllerRefClass   = $this->helper->getReflectionClass($this->controller);
-        $redirectControllerRefClass = $this->helper->getReflectionClass($this->redirectController);
+        $controllerRefClass       = $this->helper->getReflectionClass($this->controller);
+        $cachedControllerRefClass = $this->helper->getReflectionClass($this->controller);
+        $redControllerRefClass    = $this->helper->getReflectionClass($this->redirectController);
 
         $this->assertTrue($controllerRefClass instanceof \ReflectionClass);
-        $this->assertTrue($redirectControllerRefClass instanceof \ReflectionClass);
-        $this->assertNotEquals($controllerRefClass, $redirectControllerRefClass);
+        $this->assertTrue($redControllerRefClass instanceof \ReflectionClass);
+        $this->assertNotEquals($controllerRefClass, $redControllerRefClass);
         $this->assertSame($controllerRefClass, $cachedControllerRefClass);
     }
 
@@ -45,11 +45,11 @@ class BundleHelperTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetClassName()
     {
-        $controllerClassName         = $this->helper->getClassName($this->controller);
-        $redirectControllerClassName = $this->helper->getClassName($this->redirectController);
+        $controllerClassName    = $this->helper->getClassName($this->controller);
+        $redControllerClassName = $this->helper->getClassName($this->redirectController);
 
         $this->assertEquals('Symfony\\Bundle\\FrameworkBundle\\Controller\\Controller', $controllerClassName);
-        $this->assertEquals('Btn\\BaseBundle\\Controller\\RedirectingController', $redirectControllerClassName);
+        $this->assertEquals('Btn\\BaseBundle\\Controller\\RedirectingController', $redControllerClassName);
     }
 
     /**
@@ -57,14 +57,14 @@ class BundleHelperTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetBundleName()
     {
-        $simpleBudleName              = $this->helper->getBundleName('Btn\\Some\\Dir\\SimpleBundle');
-        $camelCaseBundleName          = $this->helper->getBundleName('Btn\\Some\\Dir\\CamelCaseBundle');
-        $redirectControllerBundleName = $this->helper->getBundleName($this->redirectController);
-        $controllerBundleName         = $this->helper->getBundleName($this->controller);
+        $simpleBudleName         = $this->helper->getBundleName('Btn\\Some\\Dir\\SimpleBundle');
+        $camelCaseBundleName     = $this->helper->getBundleName('Btn\\Some\\Dir\\CamelCaseBundle');
+        $redControllerBundleName = $this->helper->getBundleName($this->redirectController);
+        $controllerBundleName    = $this->helper->getBundleName($this->controller);
 
         $this->assertEquals('BtnSomeDirSimpleBundle', $simpleBudleName);
         $this->assertEquals('BtnSomeDirCamelCaseBundle', $camelCaseBundleName);
-        $this->assertEquals('BtnBaseBundle', $redirectControllerBundleName);
+        $this->assertEquals('BtnBaseBundle', $redControllerBundleName);
         $this->assertEquals('FrameworkBundle', $controllerBundleName);
     }
 }
