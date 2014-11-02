@@ -75,7 +75,6 @@ class BundleHelperTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-
     /**
      * @dataProvider getFixtures
      */
