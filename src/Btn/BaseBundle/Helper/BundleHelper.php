@@ -70,8 +70,16 @@ class BundleHelper
     public function getBundleAlias($class)
     {
         $bundleName = $this->getBundleName($class);
+        $bundlePath = $this->getBundlePath($class);
 
-        return Container::underscore(substr($bundleName, 0, -6));
+        $bundleAlias = substr($bundlePath, 0, -6);
+        $bundleAlias = str_replace('\\', '_', $bundleAlias);
+        $bundleAlias = Container::underscore($bundleAlias);
+        $bundleAlias = str_replace('_', '', $bundleAlias);
+        $bundleAlias = str_replace('.', '_', $bundleAlias);
+        $bundleAlias = preg_replace('~^symfony\_bundle\_~', '', $bundleAlias);
+
+        return $bundleAlias;
     }
 
     /**
