@@ -37,18 +37,31 @@ class BundleHelper
     /**
      *
      */
-    public function getBundleName($class)
+    public function getBundlePath($class)
     {
         $className = $this->getClassName($class);
 
         if (preg_match(('~[A-Za-z\\\\0-9]+Bundle~'), $className, $matches)) {
-            $bundleName = str_replace('\\', '', $matches[0]);
-            $bundleName = preg_replace('~^SymfonyBundle~', '', $bundleName);
+            $bundlePath = $matches[0];
 
-            return $bundleName;
+            return $bundlePath;
         }
 
-        throw new \Exception(sprintf('Could not get bundle name from "%s"', $className));
+        throw new \Exception(sprintf('Could not get bundle path from "%s"', $className));
+    }
+
+    /**
+     *
+     */
+    public function getBundleName($class)
+    {
+        $bundlePath = $this->getBundlePath($class);
+
+        $bundleName = $bundlePath;
+        $bundleName = str_replace('\\', '', $bundleName);
+        $bundleName = preg_replace('~^SymfonyBundle~', '', $bundleName);
+
+        return $bundleName;
     }
 
     /**
