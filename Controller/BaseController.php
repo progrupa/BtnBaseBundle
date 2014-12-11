@@ -233,9 +233,9 @@ class BaseController extends Controller
      * @param  string $message
      * @return \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
      */
-    public function createAccessDeniedException($message = 'Access Denied')
+    public function createAccessDeniedException($message = 'Access Denied', \Exception $previous = null)
     {
-        return new AccessDeniedHttpException($message);
+        return new AccessDeniedHttpException($message, $previous);
     }
 
     /**
