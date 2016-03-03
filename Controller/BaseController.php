@@ -252,4 +252,14 @@ class BaseController extends Controller
             throw $this->createAccessDeniedException('Invalid CSRF token.');
         }
     }
+    
+    /**
+     * @param AbstractPagination $pagination
+     *
+     * @return bool
+     */
+    public function isNextPagination(AbstractPagination $pagination)
+    {
+        return ($pagination->getCurrentPageNumber() - 1) * $pagination->getItemNumberPerPage() + $pagination->count() < $pagination->getTotalItemCount();
+    }
 }
