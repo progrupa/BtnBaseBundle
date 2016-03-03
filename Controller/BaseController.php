@@ -2,6 +2,7 @@
 
 namespace Btn\BaseBundle\Controller;
 
+use Knp\Component\Pager\Pagination\AbstractPagination;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
